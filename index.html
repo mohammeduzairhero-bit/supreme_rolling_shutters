@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#08090b">
+    <meta name="description"
+        content="Supreme Rolling Shutters in Rajapalayam. Explore shutter types, compare options, estimate costs and request a quotation.">
+    <meta name="color-scheme" content="dark light">
+    <title>Supreme Rolling Shutters | Premium Shutter Solutions in Rajapalayam</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+</head>
+
+<body>
+
+    
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="progress"></div>
+
+    <div id="preloader">
+        <div class="pl-logo">SUPREME<span>.</span></div>
+        <div class="pl-bar-track">
+            <div class="pl-bar-fill" id="plFill"></div>
+        </div>
+        <div class="pl-pct" id="plPct">0%</div>
+    </div>
+
+    <nav id="navbar">
+        <a href="#hero" class="nav-logo">Supreme<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="#products">Products</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#materials">Materials</a></li>
+            <li><a href="#why">Why Us</a></li>
+            <li><a href="#calculator">Price Calc</a></li>
+            <li><a href="#contact" class="nav-cta">Get Quote</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero">
+        <div id="hero-noise"></div>
+        <div class="deco-lines"></div>
+        <div class="hero-year reveal">EST. 2003 &nbsp;·&nbsp; RAJAPALAYAM &amp; MADURAI &amp; BANGALORE &nbsp;·&nbsp;
+            PAN SOUTH INDIA DISTRIBUTION</div>
+        <h1 class="hero-h1">
+            <div>SUPREME</div>
+            <div class="outline">ROLLING</div>
+            <div>SHUTTERS</div>
+        </h1>
+        <p class="hero-sub">Premium motorized &amp; manual rolling shutters — engineered for strength, installed for
+            life. Headquartered in Rajapalayam with a branch in Madurai and Bangalore, distributing all across south
+            india.</p>
+        <div class="hero-cta-row">
+            <a href="#contact" class="btn-primary">Get a Free Quote <i class="fas fa-arrow-right"></i></a>
+            <a href="#products" class="btn-outline">View Products</a>
+        </div>
+        <div class="hero-stats" id="hero-stats-en">
+            <div class="hero-stat-item">
+                <div class="hero-stat-num"><span class="counter-num" data-target="22">0</span><span>+</span></div>
+                <div class="hero-stat-label">Years Active</div>
+            </div>
+            <div class="hero-stat-item">
+                <div class="hero-stat-num"><span class="counter-num" data-target="50">0</span><span>K+</span></div>
+                <div class="hero-stat-label">Installations</div>
+            </div>
+            <div class="hero-stat-item">
+                <div class="hero-stat-num"><span class="counter-num" data-target="5">0</span></div>
+                <div class="hero-stat-label">Year Warranty</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <span>Motorized Shutters</span><span class="sep">✦</span>
+            <span>Gear Shutters</span><span class="sep">✦</span>
+            <span>Manual Shutters</span><span class="sep">✦</span>
+            <span>GI Grade Steel</span><span class="sep">✦</span>
+            <span>Polycarbonate</span><span class="sep">✦</span>
+            <span>5 Year Warranty</span><span class="sep">✦</span>
+            <span>Rajapalayam HQ</span><span class="sep">✦</span>
+            <span>Bangalore Branch</span><span class="sep">✦</span>
+            <span>Madurai Branch</span><span class="sep">✦</span>
+            <span>Pan south india</span><span class="sep">✦</span>
+            <span>Free Site Visit</span><span class="sep">✦</span>
+            <span>22 Years Expert</span><span class="sep">✦</span>
+        </div>
+    </div>
+
+    <div id="showcase">
+        <div class="gold-rule"></div>
+
+        <div class="metrics-strip">
+            <div class="metric-cell stagger-child">
+                <i class="fas fa-calendar-alt metric-icon"></i>
+                <div class="metric-eyebrow">Founded</div>
+                <div class="metric-number"><span class="showcase-counter" data-target="22">0</span>+</div>
+                <div class="metric-label">Years of uninterrupted service to Rajapalayam &amp; Virudhunagar district
+                </div>
+            </div>
+            <div class="metric-cell stagger-child">
+                <i class="fas fa-building metric-icon"></i>
+                <div class="metric-eyebrow">Installations</div>
+                <div class="metric-number"><span class="showcase-counter" data-target="10000">0</span>+</div>
+                <div class="metric-label">Shutters installed across shops, warehouses, factories &amp; residences</div>
+            </div>
+            <div class="metric-cell stagger-child">
+                <i class="fas fa-map-marked-alt metric-icon"></i>
+                <div class="metric-eyebrow">Distribution</div>
+                <div class="metric-number" id="dist-metric-text">south india<span
+                        style="font-size:2rem;color:var(--gold);">wide</span></div>
+                <div class="metric-label">All districts of south india covered — HQ Rajapalayam, Branch Madurai,
+                    secondary branch bangalore</div>
+            </div>
+            <div class="metric-cell stagger-child">
+                <i class="fas fa-shield-alt metric-icon"></i>
+                <div class="metric-eyebrow">Warranty</div>
+                <div class="metric-number"><span class="showcase-counter" data-target="5">0</span>Yr</div>
+                <div class="metric-label">Full parts &amp; labour warranty — every claim resolved, no exceptions</div>
+            </div>
+        </div>
+
+        <div class="legacy-panel">
+            <div class="legacy-left reveal-left">
+                <div class="legacy-kicker">Our Story</div>
+                <h2 class="legacy-heading">Two Decades of<br><em>Steel &amp; Trust</em></h2>
+                <p class="legacy-body">
+                    Established in 2003, Supreme Rolling Shutters was built on a single conviction — that quality
+                    fabrication and honest service are inseparable. What began as a modest workshop in Rajapalayam has
+                    grown into south india's trusted shutter brand, with a dedicated branch in Madurai , Bangalore and
+                    distribution reaching all districts of south india.
+                </p>
+                <p class="legacy-body" style="margin-top:-16px;">
+                    Every shutter we manufacture is custom-built — measured on-site, fabricated in our own workshop,
+                    installed by our permanent team, and backed by a comprehensive 5-year warranty. No subcontracting.
+                    No shortcuts. No compromises.
+                </p>
+                <div class="legacy-signature">
+                    <div class="sig-line"></div>
+                    <div class="sig-text">Supreme Rolling Shutters &nbsp;·&nbsp; Est. 2003, Rajapalayam</div>
+                </div>
+            </div>
+            <div class="legacy-right">
+                <div class="pillar reveal-right">
+                    <div class="pillar-icon-wrap"><i class="fas fa-industry"></i></div>
+                    <div>
+                        <div class="pillar-title">In-House Fabrication</div>
+                        <p class="pillar-body">Every shutter is cut, rolled, welded, and quality-checked in our own
+                            workshop — not outsourced. This means tighter tolerances, faster turnaround, and
+                            accountability at every step of the process.</p>
+                    </div>
+                    <div class="pillar-tag">Precision Built</div>
+                </div>
+                <div class="pillar reveal-right" style="transition-delay:0.1s">
+                    <div class="pillar-icon-wrap"><i class="fas fa-users"></i></div>
+                    <div>
+                        <div class="pillar-title">Permanent Installation Team</div>
+                        <p class="pillar-body">Our installation crew are full-time employees — not day labourers.
+                            Trained, experienced, and accountable, they carry the Supreme standard to every job site
+                            across the district.</p>
+                    </div>
+                    <div class="pillar-tag">Skilled Workforce</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="craft-strip">
+            <div class="craft-cell reveal">
+                <div class="craft-year">I</div>
+                <div class="craft-index">Standard 01</div>
+                <div class="craft-title">Material Integrity</div>
+                <p class="craft-body">We source only certified GI sheet, high-tensile steel, and grade-rated
+                    polycarbonate. Every batch is verified before entering our workshop. No recycled offcuts, no
+                    inferior substitutions — ever.</p>
+                <div class="craft-bar">
+                    <div class="craft-bar-fill" style="--fill-width:92%"></div>
+                </div>
+            </div>
+            <div class="craft-cell reveal" style="transition-delay:0.15s">
+                <div class="craft-year">II</div>
+                <div class="craft-index">Standard 02</div>
+                <div class="craft-title">Weld Quality</div>
+                <p class="craft-body">All structural welds are MIG-finished and inspected for porosity, penetration, and
+                    alignment before dispatch. Our shutters withstand decades of daily cycling without structural
+                    fatigue.</p>
+                <div class="craft-bar">
+                    <div class="craft-bar-fill" style="--fill-width:96%"></div>
+                </div>
+            </div>
+            <div class="craft-cell reveal" style="transition-delay:0.3s">
+                <div class="craft-year">III</div>
+                <div class="craft-index">Standard 03</div>
+                <div class="craft-title">Surface Finishing</div>
+                <p class="craft-body">All shutters receive anti-rust primer treatment followed by electrostatic
+                    powder-coat or enamel paint finishing. Available in custom RAL colours to match your shopfront or
+                    brand identity.</p>
+                <div class="craft-bar">
+                    <div class="craft-bar-fill" style="--fill-width:88%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gold-rule"></div>
+    </div>
+
+    <section id="products">
+        <div class="section-label">What We Offer</div>
+        <h2 class="section-title">Our <em>Shutter</em><br>Product Range</h2>
+        <div class="products-grid">
+            <div class="product-card stagger-child">
+                <div class="product-icon"><i class="fas fa-bolt"></i></div>
+                <div class="product-name">Motorized Shutters</div>
+                <p class="product-desc">Fully automated rolling shutters with remote control &amp; switch operation.
+                    Ideal for commercial showrooms, warehouses, and large openings where convenience is paramount.</p>
+                <div class="product-specs">
+                    <span class="spec-tag">Remote Control</span>
+                    <span class="spec-tag">Auto Reverse</span>
+                    <span class="spec-tag">Timer Option</span>
+                    <span class="spec-tag">Silent Motor</span>
+                </div>
+            </div>
+            <div class="product-card stagger-child">
+                <div class="product-icon"><i class="fas fa-cog"></i></div>
+                <div class="product-name">Gear Shutters</div>
+                <p class="product-desc">Mechanical gear-driven shutters offering smooth manual operation without
+                    electricity dependency. Perfect for shops, garages, and medium-sized openings requiring reliable
+                    daily use.</p>
+                <div class="product-specs">
+                    <span class="spec-tag">No Power Needed</span>
+                    <span class="spec-tag">Smooth Gear Action</span>
+                    <span class="spec-tag">Heavy Duty</span>
+                    <span class="spec-tag">Low Maintenance</span>
+                </div>
+            </div>
+            <div class="product-card stagger-child">
+                <div class="product-icon"><i class="fas fa-hand-paper"></i></div>
+                <div class="product-name">Normal / Push Shutters</div>
+                <p class="product-desc">Classic push-up rolling shutters — cost-effective, durable, and straightforward
+                    to operate. Suitable for small shops, storage rooms, and residential applications.</p>
+                <div class="product-specs">
+                    <span class="spec-tag">Budget Friendly</span>
+                    <span class="spec-tag">Easy Install</span>
+                    <span class="spec-tag">Lightweight Option</span>
+                    <span class="spec-tag">All Sizes</span>
+                </div>
+            </div>
+            <div class="product-card stagger-child">
+                <div class="product-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="product-name">High-Security Shutters</div>
+                <p class="product-desc">Extra-reinforced shutters with anti-lift locks and tamper-resistant design.
+                    Built for banks, jewellery stores, pharmacies, and any premises requiring maximum protection.</p>
+                <div class="product-specs">
+                    <span class="spec-tag">Anti-Lift Lock</span>
+                    <span class="spec-tag">Reinforced Slats</span>
+                    <span class="spec-tag">Double-Wall Option</span>
+                    <span class="spec-tag">Keyed Cylinder</span>
+                </div>
+            </div>
+            <div class="product-card stagger-child">
+                <div class="product-icon"><i class="fas fa-sun"></i></div>
+                <div class="product-name">Polycarbonate Shutters</div>
+                <p class="product-desc">Transparent or semi-transparent polycarbonate slat shutters for natural light
+                    penetration while maintaining security. Ideal for display windows and showroom fronts.</p>
+                <div class="product-specs">
+                    <span class="spec-tag">Translucent</span>
+                    <span class="spec-tag">UV Resistant</span>
+                    <span class="spec-tag">Shatter-Proof</span>
+                    <span class="spec-tag">Light Weight</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="materials">
+        <div class="section-label">Build Quality</div>
+        <h2 class="section-title">Materials We<br><em>Trust &amp; Use</em></h2>
+        <div class="materials-layout">
+            <div>
+                <div class="material-item stagger-child">
+                    <div class="material-num">01</div>
+                    <div>
+                        <div class="material-name">Galvanised Iron (GI)</div>
+                        <p class="material-desc">Hot-dip galvanised iron sheets offering superior rust resistance and
+                            structural rigidity. Our most popular material for long-lasting, corrosion-free shutters in
+                            all weather conditions.</p>
+                    </div>
+                </div>
+                <div class="material-item stagger-child">
+                    <div class="material-num">02</div>
+                    <div>
+                        <div class="material-name">High-Grade Steel</div>
+                        <p class="material-desc">Cold-rolled steel slats heat-treated for maximum tensile strength.
+                            Provides excellent dent and impact resistance — preferred for industrial and high-security
+                            applications.</p>
+                    </div>
+                </div>
+                <div class="material-item stagger-child">
+                    <div class="material-num">03</div>
+                    <div>
+                        <div class="material-name">Polycarbonate</div>
+                        <p class="material-desc">Virtually unbreakable transparent panels with 250x the impact
+                            resistance of glass. Naturally UV-stabilised to prevent yellowing, maintaining clarity for
+                            years.</p>
+                    </div>
+                </div>
+                <div class="material-item stagger-child">
+                    <div class="material-num">04</div>
+                    <div>
+                        <div class="material-name">Stainless Steel</div>
+                        <p class="material-desc">Food-grade SS 304 and SS 316 options available for pharmaceutical, food
+                            processing, and coastal environments requiring hygiene and maximum corrosion resistance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="material-visual reveal-right">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800&auto=format&fit=crop"
+                    alt="Shutter manufacturing">
+                <div class="material-visual-label" id="mat-visual-label-id">— Industrial Quality Fabrication</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Our <em>5-Step</em><br>Installation Process</h2>
+        <div class="process-steps">
+            <div class="process-step stagger-child">
+                <div class="step-num">01</div>
+                <div class="step-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="step-title">Inquiry &amp; Consultation</div>
+                <p class="step-desc">Call or WhatsApp us. We understand your requirement — shutter type, size, material,
+                    and application.</p>
+                <i class="fas fa-chevron-right step-arrow"></i>
+            </div>
+            <div class="process-step stagger-child">
+                <div class="step-num">02</div>
+                <div class="step-icon"><i class="fas fa-ruler-combined"></i></div>
+                <div class="step-title">Free Site Visit</div>
+                <p class="step-desc">Our technician visits your site, takes precise measurements and assesses the
+                    structural requirements.</p>
+                <i class="fas fa-chevron-right step-arrow"></i>
+            </div>
+            <div class="process-step stagger-child">
+                <div class="step-num">03</div>
+                <div class="step-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="step-title">Quotation</div>
+                <p class="step-desc">We provide a transparent, itemised quote. No hidden charges — material,
+                    fabrication, and fitting all included.</p>
+                <i class="fas fa-chevron-right step-arrow"></i>
+            </div>
+            <div class="process-step stagger-child">
+                <div class="step-num">04</div>
+                <div class="step-icon"><i class="fas fa-tools"></i></div>
+                <div class="step-title">Fabrication</div>
+                <p class="step-desc">Shutters are custom-fabricated in our workshop to exact specifications — cut,
+                    welded, and quality-checked.</p>
+                <i class="fas fa-chevron-right step-arrow"></i>
+            </div>
+            <div class="process-step stagger-child">
+                <div class="step-num">05</div>
+                <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="step-title">Install &amp; Warranty</div>
+                <p class="step-desc">Professional installation by our team followed by full operational testing and
+                    5-year service warranty.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="why">
+        <div class="section-label">Why Supreme</div>
+        <h2 class="section-title">Reasons Clients<br><em>Choose Us</em></h2>
+        <div class="why-grid">
+            <div class="why-list">
+                <div class="why-item stagger-child">
+                    <div class="why-check"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="why-item-title">22 Years of Local Expertise</div>
+                        <p class="why-item-desc">Founded in 2003, we have installed over 10k+ shutters across
+                            Rajapalayam and the surrounding district. Our team knows local building codes, climate
+                            demands, and customer expectations inside out.</p>
+                    </div>
+                </div>
+                <div class="why-item stagger-child">
+                    <div class="why-check"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="why-item-title">5 Year Full Service Warranty</div>
+                        <p class="why-item-desc">Every installation comes with a 60-month comprehensive warranty
+                            covering both parts and labour. If anything fails within the warranty period, we fix it — no
+                            questions asked.</p>
+                    </div>
+                </div>
+                <div class="why-item stagger-child">
+                    <div class="why-check"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="why-item-title">Custom Fabrication — Any Size</div>
+                        <p class="why-item-desc">From small 4-foot shop openings to 30-foot industrial warehouse doors,
+                            we custom fabricate every shutter to precise measurements. No off-the-shelf compromise.</p>
+                    </div>
+                </div>
+                <div class="why-item stagger-child">
+                    <div class="why-check"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="why-item-title">Transparent Pricing</div>
+                        <p class="why-item-desc">We provide detailed, itemised quotations before work begins. Material
+                            costs, fabrication, transport, and installation fees are clearly broken down — no surprise
+                            charges at handover.</p>
+                    </div>
+                </div>
+                <div class="why-item stagger-child">
+                    <div class="why-check"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="why-item-title">Post-Installation Support</div>
+                        <p class="why-item-desc">Our relationship doesn't end at installation. We offer annual
+                            maintenance contracts, spare parts supply, and emergency breakdown visits to keep your
+                            shutters running for decades.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="why-callout reveal-right">
+                <div class="callout-big">FREE SITE VISIT &amp; ESTIMATE</div>
+                <p class="callout-sub">No obligation. Our experienced technician will visit your site, measure, assess,
+                    and provide a detailed written quotation — completely free of charge.</p>
+                <div class="callout-tel">📞 98948 61777</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="warranty-band">
+        <div class="warranty-text">5 YEAR FULL WARRANTY — PARTS &amp; LABOUR INCLUDED</div>
+        <div class="warranty-icons">
+            <div class="warranty-icon-item"><i class="fas fa-tools"></i><span>Free Repairs</span></div>
+            <div class="warranty-icon-item"><i class="fas fa-box"></i><span>Parts Covered</span></div>
+            <div class="warranty-icon-item"><i class="fas fa-headset"></i><span>Phone Support</span></div>
+            <div class="warranty-icon-item"><i class="fas fa-home"></i><span>On-Site Visit</span></div>
+        </div>
+    </div>
+
+    <section id="service-area">
+        <div class="section-label">Where We Serve</div>
+        <h2 class="section-title">Pan south india<br><em>Distribution</em></h2>
+
+        <div class="area-grid">
+            <div class="reveal-left">
+                <p class="area-main-desc"
+                    style="font-size:0.9rem; color:var(--gray); line-height:1.9; max-width:460px; margin-bottom:28px;">
+                    Headquartered in Rajapalayam with a branch office in Madurai and Bangalore Supreme Rolling Shutters
+                    distributes and installs across all districts of south india. Our teams are equipped for on-site
+                    visits, fabrication dispatch, and post-installation service statewide.
+                </p>
+
+                <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:28px;">
+                    <div class="branch-card"
+                        style="border:1px solid var(--border); padding:20px 24px; display:flex; gap:16px; align-items:flex-start; transition:border-color 0.3s;">
+                        <div
+                            style="width:36px;height:36px;border:1px solid var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--yellow);font-size:0.8rem;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="branch-tag"
+                                style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--yellow);text-transform:uppercase;margin-bottom:4px;">
+                                Headquarters</div>
+                            <div class="branch-name"
+                                style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.04em;">
+                                Rajapalayam</div>
+                            <div class="branch-desc" style="font-size:0.75rem;color:var(--gray);margin-top:2px;">
+                                Virudhunagar District · Est. 2003 · Primary Workshop &amp; Fabrication Unit</div>
+                        </div>
+                    </div>
+                    <div class="branch-card"
+                        style="border:1px solid var(--border); padding:20px 24px; display:flex; gap:16px; align-items:flex-start; transition:border-color 0.3s;">
+                        <div
+                            style="width:36px;height:36px;border:1px solid var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--red);font-size:0.8rem;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <div class="branch-tag"
+                                style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">
+                                Branch Office</div>
+                            <div class="branch-name"
+                                style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.04em;">
+                                Madurai</div>
+                            <div class="branch-desc" style="font-size:0.75rem;color:var(--gray);margin-top:2px;">Central
+                                Tamil Nadu Hub · Sales, Site Visits &amp; Installation Support</div>
+                        </div>
+                    </div>
+                    <div class="branch-card"
+                        style="border:1px solid var(--border); padding:20px 24px; display:flex; gap:16px; align-items:flex-start; transition:border-color 0.3s;">
+                        <div
+                            style="width:36px;height:36px;border:1px solid var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--red);font-size:0.8rem;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <div class="branch-tag"
+                                style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">
+                                Branch Office</div>
+                            <div class="branch-name"
+                                style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.04em;">
+                                Bangalore</div>
+                            <div class="branch-desc" style="font-size:0.75rem;color:var(--gray);margin-top:2px;">
+                                Nelamangala Hub · Sales, Site Visits &amp; Installation Support</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="area-tags">
+                    <div class="area-tag">Chennai</div>
+                    <div class="area-tag">Coimbatore</div>
+                    <div class="area-tag">Madurai</div>
+                    <div class="area-tag">Trichy</div>
+                    <div class="area-tag">Salem</div>
+                    <div class="area-tag">Tirunelveli</div>
+                    <div class="area-tag">Rajapalayam</div>
+                    <div class="area-tag">Virudhunagar</div>
+                    <div class="area-tag">Sivakasi</div>
+                    <div class="area-tag">Tenkasi</div>
+                    <div class="area-tag">Kanyakumari</div>
+                    <div class="area-tag">Vellore</div>
+                    <div class="area-tag">Erode</div>
+                    <div class="area-tag">Thanjavur</div>
+                    <div class="area-tag">Dindigul</div>
+                    <div class="area-tag">Bangalore</div>
+                    <div class="area-tag">All south Districts ✦</div>
+                </div>
+            </div>
+            <div class="area-stats reveal-right">
+                <div class="area-stat stagger-child">
+                    <div class="area-stat-num"><span class="counter-num" data-target="22">0</span>+</div>
+                    <div class="area-stat-label">Years in Business</div>
+                </div>
+                <div class="area-stat stagger-child">
+                    <div class="area-stat-num"><span class="counter-num" data-target="10">0</span>K+</div>
+                    <div class="area-stat-label">Total Installations</div>
+                </div>
+                <div class="area-stat stagger-child">
+                    <div class="area-stat-num"><span class="counter-num" data-target="38">0</span></div>
+                    <div class="area-stat-label">Districts Covered</div>
+                </div>
+                <div class="area-stat stagger-child">
+                    <div class="area-stat-num"><span class="counter-num" data-target="3">0</span></div>
+                    <div class="area-stat-label">Office Locations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="section-label">Common Questions</div>
+        <h2 class="section-title">Frequently<br><em>Asked</em></h2>
+        <div class="faq-list reveal">
+            <div class="faq-item">
+                <div class="faq-q"><span>How long does installation take?</span> <i class="fas fa-plus faq-icon"></i>
+                </div>
+                <div class="faq-a">
+                    <p>Standard single shutter installations typically take 3–5 hours including concrete work and
+                        finishing. Multiple shutters or large industrial doors may require 1–2 days. We always provide a
+                        time estimate before starting work.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>What materials do you recommend for coastal areas?</span> <i
+                        class="fas fa-plus faq-icon"></i></div>
+                <div class="faq-a">
+                    <p>For coastal environments, we strongly recommend hot-dip galvanised steel with a powder-coat
+                        finish, or stainless steel (SS 316) for maximum salt-air corrosion resistance. We apply
+                        additional anti-rust primers and advise annual maintenance inspections.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>Can you retrofit a motorised system to my existing shutter?</span> <i
+                        class="fas fa-plus faq-icon"></i></div>
+                <div class="faq-a">
+                    <p>Yes, in most cases we can retrofit a tubular motor and control system to an existing manual or
+                        gear shutter, provided the structure and drum assembly are in good condition. Our technician
+                        will assess during the free site visit.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>What does the 5-year warranty cover?</span> <i
+                        class="fas fa-plus faq-icon"></i></div>
+                <div class="faq-a">
+                    <p>The warranty covers all mechanical failures, structural weld defects, spring fatigue, internal
+                        assembly adjustments, and motor electronic malfunctions under normal operational usage
+                        conditions.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>Do you offer annual maintenance contracts after the warranty period?</span> <i
+                        class="fas fa-plus faq-icon"></i></div>
+                <div class="faq-a">
+                    <p>Yes. We offer Annual Maintenance Contracts (AMC) that include two scheduled service visits per
+                        year, lubrication and adjustment of all moving parts, priority call-out for breakdown repairs,
+                        and discounted spare parts. Contact us for AMC pricing.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q"><span>What is the typical lifespan of your shutters?</span> <i
+                        class="fas fa-plus faq-icon"></i></div>
+                <div class="faq-a">
+                    <p>Our GI and steel shutters regularly last 15–25 years with basic annual maintenance. Polycarbonate
+                        shutters have a typical lifespan of 10–15 years. Motorised components typically last 8–12 years
+                        depending on usage frequency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator">
+        <div class="section-label">Instant Estimate</div>
+        <h2 class="section-title">Price <em>Calculator</em></h2>
+        <p class="calc-sub-desc"
+            style="margin-top:16px;font-size:0.82rem;color:var(--gray);letter-spacing:0.06em;max-width:560px;">Enter
+            your shutter type and size to get an instant cost estimate. Valid for Tamil Nadu, Puducherry &amp; Kerala
+            &amp; karnataka &amp; andhra.</p>
+
+        <div class="calc-inner reveal" style="margin-top:48px;">
+            <div class="calc-form-side">
+                <form class="calc-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Operation Type</label>
+                            <select id="c-op" onchange="calcPopulateMat()">
+                                <option value="">Select operation…</option>
+                                <option value="manual">Manual (Push)</option>
+                                <option value="gear">Gear Operated</option>
+                                <option value="motor">Motor Operated (Automatic)</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>Material / Shutter Type</label>
+                            <select id="c-mat">
+                                <option value="">Select type…</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Width (Feet)</label>
+                            <input type="number" id="c-w" placeholder="e.g. 10" min="1" max="120" step="0.5">
+                        </div>
+                        <div class="form-field">
+                            <label>Height (Feet)</label>
+                            <input type="number" id="c-h" placeholder="e.g. 8" min="1" max="60" step="0.5">
+                        </div>
+                    </div>
+                    <div class="calc-err" id="c-err">⚠ Please fill all fields before calculating.</div>
+                    <button type="button" class="form-submit" id="calc-run-btn-txt" onclick="calcRun()">
+                        <i class="fas fa-calculator"></i> Calculate My Price
+                    </button>
+                    <div class="calc-coverage-note" id="calc-note-box">
+                        <strong>Applicable regions:</strong> Tamil Nadu &nbsp;·&nbsp; Puducherry &nbsp;·&nbsp; Kerala
+                        &nbsp;·&nbsp; karnataka &nbsp;·&nbsp; andhra<br>
+                        Rates include supply + installation. Final quote after free site visit.
+                    </div>
+                </form>
+            </div>
+
+            <div class="calc-result-side">
+                <div class="res-idle" id="c-idle">
+                    <i class="fas fa-ruler-combined"></i>
+                    <p>Select operation &amp; material,<br>enter size, then calculate</p>
+                </div>
+                <div class="res-active" id="c-res">
+                    <div class="res-eyebrow">Estimated Total Cost</div>
+                    <div class="res-total"><span class="rs">₹</span><span id="c-total">0</span></div>
+                    <div class="res-rate" id="res-rate-box">₹<span id="c-rate">0</span>/sqft &nbsp;·&nbsp; Area: <strong
+                            id="c-sqft">0 sqft</strong></div>
+                    <div class="res-cells">
+                        <div class="res-cell">
+                            <div class="res-cell-lbl">Width</div>
+                            <div class="res-cell-val" id="c-sw">—</div>
+                        </div>
+                        <div class="res-cell">
+                            <div class="res-cell-lbl">Height</div>
+                            <div class="res-cell-val" id="c-sh">—</div>
+                        </div>
+                        <div class="res-cell">
+                            <div class="res-cell-lbl">Operation</div>
+                            <div class="res-cell-val" id="c-sop">—</div>
+                        </div>
+                        <div class="res-cell">
+                            <div class="res-cell-lbl">Material</div>
+                            <div class="res-cell-val" id="c-smat">—</div>
+                        </div>
+                    </div>
+                    <div class="res-divider"></div>
+                    <div class="res-footnote"><strong>Note:</strong> Estimate based on standard installation. Final
+                        price confirmed after free site visit — wall type, civil work &amp; access conditions may vary.
+                        <strong>Valid: Tamil nadu · Puducherry · Kerala · karnataka · andhra. </strong>
+                    </div>
+                    <a class="wa-btn" id="c-wa" href="#" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp This Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Request a<br><em>Free Quote</em></h2>
+        <div class="contact-grid">
+            <div class="contact-info reveal-left">
+                <div class="contact-row">
+                    <div class="contact-row-icon"><i class="fab fa-whatsapp"></i></div>
+                    <div>
+                        <div class="contact-row-label">WhatsApp</div>
+                        <a id="contact-wa-link"
+                            href="https://wa.me/919894861777?text=Hi%20Supreme%20Rolling%20Shutters%2C%20I%20am%20interested%20in%20getting%20a%20quote%20for%20a%20rolling%20shutter.%20Please%20contact%20me."
+                            style="font-size:1.15rem; font-weight:600; color:var(--white); text-decoration:none; transition:color 0.3s;"
+                            target="_blank">Chat on WhatsApp →</a>
+                        <div class="contact-subtext" style="font-size:0.75rem; color:var(--gray); margin-top:4px;">98948
+                            61777</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="contact-row-label">Email</div>
+                        <a id="contact-mail-link"
+                            href="mailto:supremeshutters777@gmail.com?subject=Shutter%20Quote%20Request"
+                            style="font-size:0.95rem; font-weight:600; color:var(--white); text-decoration:none; transition:color 0.3s;"
+                            target="_blank">supremeshutters777@gmail.com →</a>
+                        <div class="contact-subtext" style="font-size:0.75rem; color:var(--gray); margin-top:4px;">
+                            Pre-filled quote template</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <div class="contact-row-label">Headquarters</div>
+                        <div class="contact-row-val" style="font-size:0.95rem;">Rajapalayam, Virudhunagar District,
+                            Tamil Nadu</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-icon" style="border-color:var(--yellow);color:var(--yellow);"><i
+                            class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <div class="contact-row-label" style="color:var(--yellow);">Madurai Branch</div>
+                        <div class="contact-row-val" style="font-size:0.95rem;">Madurai, Tamil Nadu</div>
+                        <div class="contact-subtext" style="font-size:0.72rem;color:var(--gray);margin-top:3px;">Central
+                            TN — Sales &amp; Installation Support</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="contact-row-icon" style="border-color:var(--yellow);color:var(--yellow);"><i
+                            class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <div class="contact-row-label" style="color:var(--yellow);">Bangalore Branch</div>
+                        <div class="contact-row-val" style="font-size:0.95rem;">Bangalore, karnataka</div>
+                        <div class="contact-subtext" style="font-size:0.72rem;color:var(--gray);margin-top:3px;">
+                            Nelamangala — Sales &amp; Installation Support</div>
+                    </div>
+                </div>
+                <div class="contact-row" style="border-bottom:none;">
+                    <div class="contact-row-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="contact-row-label">Working Hours</div>
+                        <div class="contact-row-val" style="font-size:0.9rem;">Mon – Sat: 8:00 AM – 9:00 PM</div>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form reveal-right" onsubmit="handleFormSubmit(event)">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Your Name</label>
+                        <input type="text" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Shutter Type</label>
+                        <select name="shutter_type" required>
+                            <option value="">Select type…</option>
+                            <option>Motorized Shutter</option>
+                            <option>Gear Shutter</option>
+                            <option>Manual / Push Shutter</option>
+                            <option>High-Security Shutter</option>
+                            <option>Polycarbonate Shutter</option>
+                            <option>Fire-Rated Shutter</option>
+                            <option>Not Sure — Need Advice</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>Approximate Size</label>
+                        <input type="text" name="size" placeholder="e.g. 10ft × 8ft" required>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Town / Area</label>
+                    <input type="text" name="location" placeholder="e.g. Rajapalayam, Sivakasi…" required>
+                </div>
+                <div class="form-field">
+                    <label>Additional Details</label>
+                    <textarea name="details"
+                        placeholder="Tell us about your application — shop, warehouse, residence, etc."></textarea>
+                </div>
+                <button type="submit" class="form-submit">
+                    <i class="fas fa-paper-plane"></i> Send Inquiry
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section id="before-after">
+        <div class="section-label">Real Transformations</div>
+        <h2 class="section-title">Before &amp; After<br><em>Installations</em></h2>
+        <p class="ba-main-desc" style="margin-top:16px;font-size:0.82rem;color:var(--gray);max-width:560px;">Drag the
+            slider to see how Supreme shutters transform shopfronts across Tamil Nadu — real projects, real results.</p>
+
+        <div class="ba-container">
+            <div>
+                <div class="ba-slider-wrap" data-slider="1">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80" alt="Before"
+                        class="ba-image ba-before">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" alt="After"
+                        class="ba-image ba-after">
+                    <div class="ba-divider"></div>
+                    <div class="ba-handle"></div>
+                    <div class="ba-label before">Before</div>
+                    <div class="ba-label after">After</div>
+                </div>
+                <div class="ba-caption">
+                    <div class="ba-caption-title"></div>
+                    <div class="ba-caption-desc"></div>
+                    <div class="ba-caption-meta"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="ba-slider-wrap" data-slider="2">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Before"
+                        class="ba-image ba-before">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80" alt="After"
+                        class="ba-image ba-after">
+                    <div class="ba-divider"></div>
+                    <div class="ba-handle"></div>
+                    <div class="ba-label before">Before</div>
+                    <div class="ba-label after">After</div>
+                </div>
+                <div class="ba-caption">
+                    <div class="ba-caption-title"></div>
+                    <div class="ba-caption-desc"></div>
+                    <div class="ba-caption-meta"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="ba-slider-wrap" data-slider="3">
+                    <img src="https://images.unsplash.com/photo-1444084316824-dc26d6657664?w=800&q=80" alt="Before"
+                        class="ba-image ba-before">
+                    <img src="https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&q=80" alt="After"
+                        class="ba-image ba-after">
+                    <div class="ba-divider"></div>
+                    <div class="ba-handle"></div>
+                    <div class="ba-label before">Before</div>
+                    <div class="ba-label after">After</div>
+                </div>
+                <div class="ba-caption">
+                    <div class="ba-caption-title"></div>
+                    <div class="ba-caption-desc"></div>
+                    <div class="ba-caption-meta"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="ba-slider-wrap" data-slider="4">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80" alt="Before"
+                        class="ba-image ba-before">
+                    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800&q=80" alt="After"
+                        class="ba-image ba-after">
+                    <div class="ba-divider"></div>
+                    <div class="ba-handle"></div>
+                    <div class="ba-label before">Before</div>
+                    <div class="ba-label after">After</div>
+                </div>
+                <div class="ba-caption">
+                    <div class="ba-caption-title"></div>
+                    <div class="ba-caption-desc"></div>
+                    <div class="ba-caption-meta"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="service-map-section">
+        <div class="section-label">Service & Installation</div>
+        <h2 class="section-title">Plan Your<br><em>Shutter Installation</em></h2>
+        <p class="map-main-desc" style="margin-top:16px;font-size:0.82rem;color:var(--gray);max-width:560px;">Tell us
+            your town, opening size, and preferred shutter type. Our team can confirm service availability, arrange a
+            site measurement, and prepare a quotation for your project.</p>
+
+        <div class="map-container">
+            <div class="map-visual">
+                <svg class="map-svg-wrap" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                    <g id="map-base">
+                        <path class="map-base" d="M50,50 L350,50 L350,450 L50,450 Z" />
+
+                        <path class="map-district" data-district="chennai" data-installs="2847" data-clients="1243"
+                            d="M250,80 L320,80 L320,140 L250,140 Z" />
+                        <text class="map-label" x="285" y="115">Chennai</text>
+
+                        <path class="map-district" data-district="coimbatore" data-installs="1956" data-clients="892"
+                            d="M70,200 L140,200 L140,270 L70,270 Z" />
+                        <text class="map-label" x="85" y="240">Coimbatore</text>
+
+                        <path class="map-district" data-district="madurai" data-installs="3124" data-clients="1456"
+                            d="M160,300 L240,300 L240,370 L160,370 Z" />
+                        <text class="map-label" x="180" y="340">Madurai</text>
+
+                        <circle class="map-marker" cx="200" cy="335" r="6" />
+                        <text class="map-label" id="map-branch-marker-lbl" x="210" y="340"
+                            style="font-size:0.45rem;fill:var(--yellow);">BRANCH</text>
+
+                        <path class="map-district" data-district="rajapalayam" data-installs="4821" data-clients="2104"
+                            d="M170,370 L230,370 L230,420 L170,420 Z" />
+                        <text class="map-label" x="180" y="400">Rajapalayam</text>
+
+                        <circle class="map-marker" cx="200" cy="395" r="8" />
+                        <text class="map-label" id="map-hq-marker-lbl" x="212" y="400"
+                            style="font-size:0.5rem;fill:var(--yellow);font-weight:700;">HQ</text>
+
+                        <path class="map-district" data-district="trichy" data-installs="1634" data-clients="743"
+                            d="M180,220 L250,220 L250,290 L180,290 Z" />
+                        <text class="map-label" x="200" y="260">Trichy</text>
+
+                        <path class="map-district" data-district="salem" data-installs="1289" data-clients="621"
+                            d="M140,140 L210,140 L210,200 L140,200 Z" />
+                        <text class="map-label" x="160" y="175">Salem</text>
+
+                        <path class="map-district" data-district="tirunelveli" data-installs="987" data-clients="456"
+                            d="M140,400 L200,400 L200,450 L140,450 Z" />
+                        <text class="map-label" x="155" y="430">Tirunelveli</text>
+
+                        <path class="map-district" data-district="vellore" data-installs="756" data-clients="334"
+                            d="M220,60 L280,60 L280,120 L220,120 Z" />
+                        <text class="map-label" x="235" y="95">Vellore</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="map-stats-panel">
+                <div class="map-stat-card" id="map-default-card">
+                    <div class="map-stat-card-title">Pan-Tamil Nadu Coverage</div>
+                    <div class="map-stat-card-value">Explore our service network by selecting a marked district to view
+                        its installation details. Contact our team to confirm coverage, site-visit availability, and
+                        delivery timelines for your location.</div>
+                    <div class="map-stat-grid">
+                        <div class="map-stat-item">
+                            <div class="map-stat-num">01</div>
+                            <div class="map-stat-label">Share Your Location</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num">02</div>
+                            <div class="map-stat-label">Site Measurement</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num">03</div>
+                            <div class="map-stat-label">Choose Operation Type</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num">04</div>
+                            <div class="map-stat-label">Get Your Quote</div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="map-cta-btn">Request Service in Your District <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="map-stat-card" id="map-district-card" style="display:none;">
+                    <div class="map-stat-card-title" id="district-name">—</div>
+                    <div class="map-stat-card-value" id="district-desc">Click a district on the map to see installation
+                        statistics.</div>
+                    <div class="map-stat-grid">
+                        <div class="map-stat-item">
+                            <div class="map-stat-num" id="district-installs">—</div>
+                            <div class="map-stat-label">Installations</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num" id="district-clients">—</div>
+                            <div class="map-stat-label">Happy Clients</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num" id="district-rating">4.9★</div>
+                            <div class="map-stat-label">Avg Rating</div>
+                        </div>
+                        <div class="map-stat-item">
+                            <div class="map-stat-num" id="district-response">24hr</div>
+                            <div class="map-stat-label">Response Time</div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="map-cta-btn" id="district-cta">Get Quote in <span
+                            id="district-cta-name">—</span> <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="lang-toggle">
+        <button class="lang-btn active" data-lang="en" onclick="switchLang('en')">English</button>
+        <button class="lang-btn" data-lang="ta" onclick="switchLang('ta')">தமிழ்</button>
+    </div>
+
+    <section id="smart-recs">
+        <div class="recs-header">
+            <h2 class="recs-title">You Might Also <em>Need</em></h2>
+            <div class="recs-reason" id="recs-reason">Based on your selections</div>
+        </div>
+        <div class="recs-grid" id="recs-container"></div>
+    </section>
+
+    <section id="testimonials" style="background:#0d0d0d;padding:120px 48px;">
+        <div class="section-label">Client Reviews</div>
+        <h2 class="section-title">What Clients<br><em>Say About Us</em></h2>
+        <div class="testi-track-wrap" style="margin-top:64px;overflow:hidden;position:relative;">
+            <div class="testi-track">
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Got our entire showroom front done — 4 motorized shutters. Perfectly silent,
+                        flawless finish. Supreme's team was professional from site visit to handover. Highly
+                        recommended."</p>
+                    <div class="testi-author"><span class="testi-name">Muthu Krishnan</span><span
+                            class="testi-loc">Rajapalayam · Showroom Owner</span></div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Called for a warranty issue 2 years after installation — they came the next
+                        morning and fixed it without any charge. That kind of after-service is rare. 5 stars without
+                        hesitation."</p>
+                    <div class="testi-author"><span class="testi-name">Azhagar Raj</span><span
+                            class="testi-loc">Virudhunagar · Warehouse</span></div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Polycarbonate shutters for my pharmacy — customers can see the store even
+                        when closed. Quality is excellent and the price was fair. Very satisfied with Supreme."</p>
+                    <div class="testi-author"><span class="testi-name">Dr. Priya Selvan</span><span
+                            class="testi-loc">Madurai · Pharmacy</span></div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Industrial shutters for our factory gate — 22ft wide. They handled it
+                        perfectly. Smooth gear operation, solid weld quality, and delivered exactly on time."</p>
+                    <div class="testi-author"><span class="testi-name">Suresh Babu</span><span
+                            class="testi-loc">Sivakasi · Factory</span></div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"Bangalore branch team was very responsive. Got 3 shutters installed in our
+                        Nelamangala warehouse. Neat work, good communication, and transparent billing."</p>
+                    <div class="testi-author"><span class="testi-name">Ramesh Nair</span><span
+                            class="testi-loc">Bangalore · Logistics Firm</span></div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">★★★★★</div>
+                    <p class="testi-text">"10-year-old Supreme shutter still working perfectly — just had the annual
+                        service done. Built to last. Will order two more for our new branch."</p>
+                    <div class="testi-author"><span class="testi-name">Annamalai S.</span><span
+                            class="testi-loc">Tenkasi · Textile Shop</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="compare" style="background:#060606;padding:120px 48px;">
+        <div class="section-label">Product Comparison</div>
+        <h2 class="section-title">Which Shutter<br><em>Suits You?</em></h2>
+        <p class="cmp-main-desc" style="margin-top:16px;font-size:0.82rem;color:#888;max-width:520px;line-height:1.8;">
+            Compare our shutter types side by side to find the perfect fit for your space and budget.</p>
+        <div class="cmp-outer">
+            <table class="cmp-table" id="cmpTable">
+                <thead>
+                    <tr>
+                        <th class="cmp-feat-col">Feature</th>
+                        <th id="th-manual"><i class="fas fa-hand-paper"></i><br>Manual</th>
+                        <th id="th-gear"><i class="fas fa-cog"></i><br>Gear</th>
+                        <th class="cmp-best" id="th-motor"><span class="cmp-badge">POPULAR</span><i
+                                class="fas fa-bolt"></i><br>Motorized</th>
+                        <th id="th-security"><i class="fas fa-shield-alt"></i><br>High-Security</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cmp-feat-col">Operation</td>
+                        <td>Push Up</td>
+                        <td>Gear Handle</td>
+                        <td class="cmp-best">Remote / Switch</td>
+                        <td>Key + Lock</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Electricity Needed</td>
+                        <td><span class="cno">✗ No</span></td>
+                        <td><span class="cno">✗ No</span></td>
+                        <td class="cmp-best"><span class="cyes">✓ Yes</span></td>
+                        <td><span class="cno">✗ No</span></td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Best Application</td>
+                        <td>Small shops</td>
+                        <td>Medium shops</td>
+                        <td class="cmp-best">Showrooms / Large</td>
+                        <td>Banks / Jewellery</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Starting Rate</td>
+                        <td>₹220/sqft</td>
+                        <td>₹320/sqft</td>
+                        <td class="cmp-best" style="color:#FFD700;font-weight:700;">₹470/sqft</td>
+                        <td>Custom Quote</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Noise Level</td>
+                        <td>Low</td>
+                        <td>Very Low</td>
+                        <td class="cmp-best"><span class="cyes">Silent Motor</span></td>
+                        <td>Low</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Auto Timer / App</td>
+                        <td><span class="cno">✗</span></td>
+                        <td><span class="cno">✗</span></td>
+                        <td class="cmp-best"><span class="cyes">✓ Available</span></td>
+                        <td><span class="cno">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Maintenance</td>
+                        <td>Very Low</td>
+                        <td>Low</td>
+                        <td class="cmp-best">Low</td>
+                        <td>Low</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Expected Lifespan</td>
+                        <td>15–20 yrs</td>
+                        <td>18–25 yrs</td>
+                        <td class="cmp-best">15–20 yrs</td>
+                        <td>20–30 yrs</td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Warranty</td>
+                        <td><span class="cyes">✓ 5 Years</span></td>
+                        <td><span class="cyes">✓ 5 Years</span></td>
+                        <td class="cmp-best"><span class="cyes">✓ 5 Years</span></td>
+                        <td><span class="cyes">✓ 5 Years</span></td>
+                    </tr>
+                    <tr>
+                        <td class="cmp-feat-col">Security Level</td>
+                        <td>
+                            <div class="cmp-bar-wrap">
+                                <div class="cmp-bar" style="--bw:40%"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="cmp-bar-wrap">
+                                <div class="cmp-bar" style="--bw:60%"></div>
+                            </div>
+                        </td>
+                        <td class="cmp-best">
+                            <div class="cmp-bar-wrap">
+                                <div class="cmp-bar cmp-bar-gold" style="--bw:75%"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="cmp-bar-wrap">
+                                <div class="cmp-bar cmp-bar-red" style="--bw:100%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="product-configurator" style="background: var(--bg2); padding: 100px 48px;">
+        <div class="section-label">Product Lab</div>
+        <h2 class="section-title">Configure Your <em>Supreme</em> Shutter</h2>
+        <p style="max-width:760px;color:var(--gray);line-height:1.8;margin-top:18px;">Preview a shutter concept on your
+            own storefront. Upload a clear shop photo, choose a mechanism, and generate a realistic visual concept for
+            discussion with our installation team.</p>
+
+        <div class="ai-shutter-lab"
+            style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px;margin-top:34px;">
+            <div style="border:1px solid var(--border);background:var(--bg3);padding:24px;">
+                <label for="shop-photo-upload" style="display:block;font-weight:700;margin-bottom:10px;">01 / Your shop
+                    photo</label>
+                <p style="color:var(--gray);font-size:.82rem;line-height:1.7;margin-bottom:16px;">Use a front-facing
+                    photo with the entrance visible. The preview will keep the existing building and surroundings as
+                    consistent as the image model allows.</p>
+                <input id="shop-photo-upload" type="file" accept="image/png,image/jpeg,image/webp"
+                    style="width:100%;color:var(--gray);padding:12px;border:1px dashed var(--border);background:var(--bg);">
+                <img id="shop-photo-preview" alt="Your uploaded shop preview" hidden
+                    style="width:100%;max-height:280px;object-fit:contain;background:#080808;margin-top:16px;border:1px solid var(--border);">
+                <p id="shop-photo-status" role="status" style="font-size:.75rem;color:var(--gray);margin-top:10px;">No
+                    photo selected. JPG, PNG or WebP; up to 8 MB.</p>
+            </div>
+            <div style="border:1px solid var(--border);background:var(--bg3);padding:24px;">
+                <label style="display:block;font-weight:700;margin-bottom:10px;">02 / Choose your shutter</label>
+                <div id="ai-mechanism-options" style="display:grid;gap:10px;">
+                    <label class="ai-option"
+                        style="display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--yellow);cursor:pointer;"><input
+                            type="radio" name="ai-mechanism" value="manual" checked><span><strong>Normal /
+                                Manual</strong><br><small style="color:var(--gray);">Hand-operated rolling shutter with
+                                a clean, practical finish.</small></span></label>
+                    <label class="ai-option"
+                        style="display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--border);cursor:pointer;"><input
+                            type="radio" name="ai-mechanism" value="gear"><span><strong>Gear operated</strong><br><small
+                                style="color:var(--gray);">Manual chain/gear mechanism with a visible side gearbox where
+                                appropriate.</small></span></label>
+                    <label class="ai-option"
+                        style="display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--border);cursor:pointer;"><input
+                            type="radio" name="ai-mechanism" value="motor"><span><strong>Electric
+                                motor</strong><br><small style="color:var(--gray);">Motorized roller assembly with
+                                believable side hardware and proportions.</small></span></label>
+                </div>
+                <label for="shutter-notes" style="display:block;font-weight:700;margin:20px 0 8px;">Optional
+                    details</label>
+                <textarea id="shutter-notes" rows="3"
+                    placeholder="e.g. charcoal grey, keep the signboard and glass unchanged"
+                    style="width:100%;padding:12px;background:var(--bg);color:var(--white);border:1px solid var(--border);font:inherit;resize:vertical;"></textarea>
+                <button id="generate-shutter-btn" class="btn-primary" type="button"
+                    style="width:100%;justify-content:center;margin-top:16px;cursor:pointer;">Generate AI concept <i
+                        class="fas fa-wand-magic-sparkles"></i></button>
+                <p style="font-size:.72rem;color:var(--gray);line-height:1.6;margin-top:12px;">AI concepts are
+                    illustrative only. Final measurements, fixing points, motor sizing and feasibility must be confirmed
+                    on-site.</p>
+            </div>
+        </div>
+        <div id="ai-shutter-result" aria-live="polite"
+            style="display:none;margin-top:24px;border:1px solid var(--border);padding:24px;background:var(--bg3);">
+            <div
+                style="display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+                <strong id="ai-result-title">Your shutter concept</strong><span id="ai-result-status"
+                    style="font-size:.8rem;color:var(--gray);">Ready</span>
+            </div>
+            <img id="ai-result-image" alt="AI-generated rolling shutter concept" hidden
+                style="display:block;width:100%;max-height:760px;object-fit:contain;background:#080808;">
+            <p id="ai-result-message" style="color:var(--gray);font-size:.85rem;line-height:1.8;margin-top:12px;"></p>
+            <a id="ai-result-download" hidden download="supreme-shutter-concept.png" class="btn-outline"
+                style="display:inline-block;margin-top:12px;">Save concept image</a>
+        </div>
+
+        <div class="config-grid"
+            style="display: grid; grid-template-columns: 1fr 350px; gap: 50px; margin-top: 50px; align-items: center;">
+            <div class="display-canvas"
+                style="position: relative; background: #000; border: 1px solid var(--border); height: 500px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <img id="main-shutter-img" src="manual-shutter.png" alt="Supreme Shutter"
+                    style="max-width: 100%; max-height: 100%; transition: opacity 0.4s ease; filter: hue-rotate(0deg);">
+                <div id="type-badge"
+                    style="position: absolute; top: 20px; left: 20px; font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--red); border: 1px solid var(--red); padding: 5px 12px; text-transform: uppercase;">
+                    Manual Mode</div>
+            </div>
+
+            <div class="config-controls" style="display: flex; flex-direction: column; gap: 30px;">
+                <div>
+                    <label id="cfg-label-1">1. Mechanism Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px;">
+                        <button class="btn-outline config-btn active"
+                            onclick="updateShutter('manual', 'Manual Mode', this)">Manual Push</button>
+                        <button class="btn-outline config-btn" onclick="updateShutter('gear', 'Gear System', this)">Gear
+                            Box</button>
+                        <button class="btn-outline config-btn"
+                            onclick="updateShutter('motor', 'Electric Motor', this)">Electric Motor</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label id="cfg-label-2">2. Sheet Tint</label>
+                    <div style="display: flex; gap: 12px; margin-top: 15px;">
+                        <div class="swatch" onclick="applyTint(0)"
+                            style="background:#888; width:35px; height:35px; cursor:pointer; border:1px solid #fff;">
+                        </div>
+                        <div class="swatch" onclick="applyTint(190)"
+                            style="background:#004a8b; width:35px; height:35px; cursor:pointer;"></div>
+                        <div class="swatch" onclick="applyTint(340)"
+                            style="background:#8b0009; width:35px; height:35px; cursor:pointer;"></div>
+                    </div>
+                    <p class="config-note-text" style="font-size: 0.6rem; color: var(--gray); margin-top: 10px;">*Note:
+                        Final powder-coat finish will be matched to your RAL choice.</p>
+                </div>
+
+                <button class="btn-primary config-submit-btn" style="width: 100%; justify-content: center;"
+                    onclick="window.location.hash='#contact'">Enquire About This Build</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="trust-bar" id="trustBar">
+        <div class="trust-item"><i class="fas fa-hard-hat"></i>
+            <div><strong>100%</strong><span>In-House Fabrication</span></div>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item"><i class="fas fa-rupee-sign"></i>
+            <div><strong>Zero</strong><span>Hidden Charges</span></div>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item"><i class="fas fa-truck"></i>
+            <div><strong>Free</strong><span>Site Visit &amp; Estimate</span></div>
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item"><i class="fas fa-redo"></i>
+            <div><strong>AMC</strong><span>Annual Maintenance Plans</span></div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/919894861777?text=Hi%20Supreme%20Rolling%20Shutters%2C%20I%20need%20a%20quote."
+        target="_blank" id="wa-float" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="wa-float-label">Get Quote</span>
+    </a>
+
+    <button id="btt-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <div class="footer-brand">Supreme<span>.</span> Rolling Shutters</div>
+        <div class="footer-copy">© 2026 Supreme Rolling Shutters. Est. 2003 · Rajapalayam HQ · Madurai Branch ·
+            Bangalore Branch · Pan south india</div>
+        <div class="footer-phone">98948 61777 &nbsp;|&nbsp; 94863 21681</div>
+    </footer>
+
+    <script src="enhancements.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
