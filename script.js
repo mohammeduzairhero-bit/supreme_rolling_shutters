@@ -38,41 +38,67 @@ gsap.registerPlugin(ScrollTrigger);
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function handleMouseMove(e) {
+    mx = e.clientX;
+    my = e.clientY;
+}
+document.addEventListener('mousemove', handleMouseMove);
+
 (function animCursor() {
-    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
     requestAnimationFrame(animCursor);
 })();
 
+const hoverElements = ['a', 'button', '.product-card', '.why-item', '.faq-q', '.area-tag', '.metric-cell', '.pillar', '.craft-cell', '.swatch'];
+
+function handleMouseEnter(e) {
+    cursor.style.width = '18px';
+    cursor.style.height = '18px';
+    ring.style.width = '54px';
+    ring.style.height = '54px';
+    ring.style.borderColor = 'rgba(232,0,15,0.8)';
+}
+
+function handleMouseLeave(e) {
+    cursor.style.width = '12px';
+    cursor.style.height = '12px';
+    ring.style.width = '38px';
+    ring.style.height = '38px';
+    ring.style.borderColor = 'rgba(232,0,15,0.5)';
+}
+
 function bindCursorHover() {
-    document.querySelectorAll('a, button, .product-card, .why-item, .faq-q, .area-tag, .metric-cell, .pillar, .craft-cell, .swatch').forEach(el => {
+    const elements = document.querySelectorAll(hoverElements.join(', '));
+    elements.forEach(el => {
         el.removeEventListener('mouseenter', handleMouseEnter);
         el.removeEventListener('mouseleave', handleMouseLeave);
         el.addEventListener('mouseenter', handleMouseEnter);
         el.addEventListener('mouseleave', handleMouseLeave);
     });
 }
-function handleMouseEnter() {
-    cursor.style.width = '18px'; cursor.style.height = '18px';
-    ring.style.width = '54px'; ring.style.height = '54px';
-    ring.style.borderColor = 'rgba(232,0,15,0.8)';
-}
-function handleMouseLeave() {
-    cursor.style.width = '12px'; cursor.style.height = '12px';
-    ring.style.width = '38px'; ring.style.height = '38px';
-    ring.style.borderColor = 'rgba(232,0,15,0.5)';
-}
 bindCursorHover();
 
 /* ── Nav scroll ── */
 const navbar = document.getElementById('navbar');
+let navScrolled = false;
 window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    const didScroll = window.scrollY > 60;
+    if (didScroll !== navScrolled) {
+        navbar.classList.toggle('scrolled', didScroll);
+        navScrolled = didScroll;
+    }
     const winScroll = document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    document.getElementById("progress").style.width = (winScroll / height) * 100 + "%";
+    const progressEl = document.getElementById("progress");
+    if (progressEl) {
+        progressEl.style.width = (winScroll / height) * 100 + "%";
+    }
 });
 
 /* ── Hero Animation ── */
@@ -87,25 +113,21 @@ function initHeroAnim() {
 }
 
 /* ── Scroll reveals ── */
+function createReveal(selector, x = 0, stagger = null) {
+    gsap.utils.toArray(selector).forEach(el => {
+        const anim = { opacity: 0, x: x, y: x ? 0 : 40 };
+        gsap.fromTo(el, anim, {
+            opacity: 1, x: 0, y: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+        });
+    });
+}
+
 function initScrollAnims() {
-    gsap.utils.toArray('.reveal').forEach(el => {
-        gsap.fromTo(el, { opacity: 0, y: 40 }, {
-            opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-        });
-    });
-    gsap.utils.toArray('.reveal-left').forEach(el => {
-        gsap.fromTo(el, { opacity: 0, x: -50 }, {
-            opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-        });
-    });
-    gsap.utils.toArray('.reveal-right').forEach(el => {
-        gsap.fromTo(el, { opacity: 0, x: 50 }, {
-            opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
-        });
-    });
+    createReveal('.reveal');
+    createReveal('.reveal-left', -50);
+    createReveal('.reveal-right', 50);
+    
     document.querySelectorAll('.products-grid, .process-steps, .why-list, .area-stats, .metrics-strip').forEach(container => {
         const children = container.querySelectorAll('.stagger-child');
         gsap.fromTo(children, { opacity: 0, y: 35 }, {
@@ -113,6 +135,7 @@ function initScrollAnims() {
             scrollTrigger: { trigger: container, start: 'top 85%', toggleActions: 'play none none none' }
         });
     });
+    
     document.querySelectorAll('.materials-layout .stagger-child').forEach((el, i) => {
         gsap.fromTo(el, { opacity: 0, x: -30 }, {
             opacity: 1, x: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out',
@@ -121,6 +144,32 @@ function initScrollAnims() {
     });
 }
 initScrollAnims();
+
+/* ── Counter Animation Helper ── */
+function animateCounter(el, target, duration = 1000, step = 80) {
+    let current = 0;
+    const increment = Math.ceil(target / step);
+    const intervalTime = duration / step;
+    
+    if (typeof gsap !== 'undefined' && !gsap.globalTimeline().getAll().length) {
+        gsap.to(el, {
+            innerText: target,
+            duration: duration / 1000,
+            snap: { innerText: 1 },
+            ease: 'power1.out',
+            onUpdate: () => {
+                el.textContent = Math.ceil(el.innerText).toLocaleString();
+            }
+        });
+        return;
+    }
+    
+    const timer = setInterval(() => {
+        current = Math.min(current + increment, target);
+        el.textContent = current.toLocaleString();
+        if (current >= target) clearInterval(timer);
+    }, intervalTime);
+}
 
 ScrollTrigger.create({
     trigger: '.craft-strip',
@@ -140,13 +189,7 @@ ScrollTrigger.create({
     onEnter: () => {
         document.querySelectorAll('.showcase-counter').forEach(el => {
             const target = parseInt(el.dataset.target);
-            let current = 0;
-            const step = Math.ceil(target / 80);
-            const timer = setInterval(() => {
-                current = Math.min(current + step, target);
-                el.textContent = current.toLocaleString();
-                if (current >= target) clearInterval(timer);
-            }, 20);
+            animateCounter(el, target);
         });
     }
 });
@@ -154,13 +197,7 @@ ScrollTrigger.create({
 function animateCounters() {
     document.querySelectorAll('.counter-num').forEach(el => {
         const target = parseInt(el.dataset.target);
-        let current = 0;
-        const step = Math.ceil(target / 60);
-        const timer = setInterval(() => {
-            current = Math.min(current + step, target);
-            el.textContent = current.toLocaleString();
-            if (current >= target) clearInterval(timer);
-        }, 25);
+        if (!isNaN(target)) animateCounter(el, target);
     });
 }
 
@@ -171,17 +208,12 @@ ScrollTrigger.create({
     onEnter: () => {
         document.querySelectorAll('#service-area .counter-num').forEach(el => {
             const target = parseInt(el.dataset.target);
-            let current = 0;
-            const step = Math.ceil(target / 60);
-            const timer = setInterval(() => {
-                current = Math.min(current + step, target);
-                el.textContent = current.toLocaleString();
-                if (current >= target) clearInterval(timer);
-            }, 25);
+            if (!isNaN(target)) animateCounter(el, target);
         });
     }
 });
 
+/* ── FAQ Accordion ── */
 document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => {
         const item = q.parentElement;
@@ -191,11 +223,13 @@ document.querySelectorAll('.faq-q').forEach(q => {
     });
 });
 
+/* ── Hero Parallax ── */
 gsap.to('.hero-h1', {
     y: -80, ease: 'none',
     scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
 });
 
+/* ── Section Labels & Titles ── */
 gsap.utils.toArray('.section-title').forEach(el => {
     gsap.fromTo(el, { opacity: 0, y: 30 }, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
@@ -209,31 +243,32 @@ gsap.utils.toArray('.section-label').forEach(el => {
     });
 });
 
+/* ── Form Submit ── */
 function handleFormSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const message = ` New Shutter Inquiry \n\n` +
-        ` *Name:* ${data.name}\n` +
-        ` *Phone:* ${data.phone}\n` +
-        `️ *Shutter Type:* ${data.shutter_type}\n` +
-        ` *Size:* ${data.size}\n` +
-        ` *Location:* ${data.location}\n` +
-        ` *Details:* ${data.details || 'Not provided'}`;
+    const message = `New Shutter Inquiry\n\n` +
+        `*Name:* ${data.name}\n` +
+        `*Phone:* ${data.phone}\n` +
+        `*Shutter Type:* ${data.shutter_type}\n` +
+        `*Size:* ${data.size}\n` +
+        `*Location:* ${data.location}\n` +
+        `*Details:* ${data.details || 'Not provided'}`;
 
     const whatsappUrl = `https://wa.me/919894861777?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 
     const submitBtn = event.target.querySelector('.form-submit');
     const isTa = (localStorage.getItem('supreme-lang') === 'ta');
-    submitBtn.innerHTML = isTa ? '<i class="fas fa-check"></i> விசாரணை அனுப்பப்பட்டது — நாங்கள் அழைப்போம்!' : '<i class="fas fa-check"></i> Inquiry Sent — We\'ll Call You!';
+    submitBtn.innerHTML = isTa ? '<i class="fas fa-check"></i> வணக்கம் — நாங்கள் அழைப்போம்!' : '<i class="fas fa-check"></i> Inquiry Sent — We\'ll Call You!';
     submitBtn.style.background = '#28a745';
     submitBtn.disabled = true;
 
     setTimeout(() => {
         event.target.reset();
-        submitBtn.innerHTML = isTa ? '<i class="fas fa-paper-plane"></i> விவரங்களை அனுப்பி அளவீட்டை முன்பதிவு செய்க' : '<i class="fas fa-paper-plane"></i> Send Inquiry';
+        submitBtn.innerHTML = isTa ? '<i class="fas fa-paper-plane"></i> விவரங்களை அனுபு இலவச மதிப்பீடு செய்யுங்கள்' : '<i class="fas fa-paper-plane"></i> Send Inquiry';
         submitBtn.style.background = '';
         submitBtn.disabled = false;
     }, 5000);
@@ -303,7 +338,10 @@ function calcRun() {
     const err = document.getElementById('c-err');
     const isTa = (localStorage.getItem('supreme-lang') === 'ta');
 
-    if (!op || !rate || !w || !h || w <= 0 || h <= 0) { err.classList.add('show'); return; }
+    if (!op || !rate || !w || !h || w <= 0 || h <= 0) {
+        err.classList.add('show');
+        return;
+    }
     err.classList.remove('show');
     const area = w * h, total = Math.round(area * rate);
 
@@ -319,19 +357,24 @@ function calcRun() {
     document.getElementById('c-sop').textContent = opLabel;
     document.getElementById('c-smat').textContent = matLabel;
 
-    const waMsg = encodeURIComponent(' *Supreme Rolling Shutters — Price Enquiry*\n\n *Type:* ' + selectedOpt.getAttribute('data-label') + '\n️ *Operation:* ' + OP_LABELS[op] + '\n *Size:* ' + w + 'ft × ' + h + 'ft (' + area.toFixed(2) + ' sqft)\n *Estimated Cost:* ₹' + total.toLocaleString('en-IN') + '\n\nPlease arrange a free site visit to confirm the final quote.');
+    const waMsg = encodeURIComponent(' *Supreme Rolling Shutters — Price Enquiry*\n\n *Type:* ' + selectedOpt.getAttribute('data-label') + '\n *Operation:* ' + OP_LABELS[op] + '\n *Size:* ' + w + 'ft × ' + h + 'ft (' + area.toFixed(2) + ' sqft)\n *Estimated Cost:* ₹' + total.toLocaleString('en-IN') + '\n\nPlease arrange a free site visit to confirm the final quote.');
     document.getElementById('c-wa').href = 'https://wa.me/919894861777?text=' + waMsg;
     document.getElementById('c-idle').style.display = 'none';
     const res = document.getElementById('c-res');
-    res.classList.remove('show'); void res.offsetWidth; res.classList.add('show');
+    res.classList.remove('show');
+    void res.offsetWidth;
+    res.classList.add('show');
 }
 
-document.querySelectorAll('#c-w,#c-h').forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') calcRun(); }));
+document.querySelectorAll('#c-w, #c-h').forEach(el => el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') calcRun();
+}));
 
 /* ── Extras setup ── */
 const _btt = document.getElementById('btt-btn');
 window.addEventListener('scroll', () => _btt.classList.toggle('show', scrollY > 500), { passive: true });
 
+/* ── Cursor trails ── */
 (function () {
     const N = 10, trails = [];
     for (let i = 0; i < N; i++) {
@@ -356,16 +399,18 @@ window.addEventListener('scroll', () => _btt.classList.toggle('show', scrollY > 
     })();
 })();
 
-document.querySelectorAll('.btn-primary,.btn-outline,.form-submit,.calc-submit,.wa-btn').forEach(btn => {
+/* ── Button tilt effect ── */
+document.querySelectorAll('.btn-primary, .btn-outline, .form-submit, .calc-submit, .wa-btn').forEach(btn => {
     btn.addEventListener('mousemove', function (e) {
         const r = this.getBoundingClientRect();
         const dx = e.clientX - (r.left + r.width / 2);
         const dy = e.clientY - (r.top + r.height / 2);
-        this.style.transform = `translate(${dx * 0.15}px,${dy * 0.15}px)`;
+        this.style.transform = `translate(${dx * 0.15}px, ${dy * 0.15}px)`;
     });
     btn.addEventListener('mouseleave', function () { this.style.transform = ''; });
 });
 
+/* ── Trust bar reveal ── */
 (function () {
     const tb = document.getElementById('trustBar');
     if (!tb) return;
@@ -375,6 +420,7 @@ document.querySelectorAll('.btn-primary,.btn-outline,.form-submit,.calc-submit,.
     io.observe(tb);
 })();
 
+/* ── Comparison table reveal ── */
 (function () {
     const table = document.getElementById('cmpTable');
     if (!table) return;
@@ -395,6 +441,7 @@ document.querySelectorAll('.btn-primary,.btn-outline,.form-submit,.calc-submit,.
     io.observe(table);
 })();
 
+/* ── GSAP advanced animations ── */
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     ['#testimonials', '#compare'].forEach(sel => {
         const title = document.querySelector(sel + ' .section-title');
@@ -403,6 +450,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.fromTo('.testi-card', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out', scrollTrigger: { trigger: '#testimonials', start: 'top 80%', once: true } });
 }
 
+/* ── Nav link additions ── */
 (function () {
     const ul = document.querySelector('.nav-links');
     if (!ul) return;
@@ -410,12 +458,15 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     [{ href: '#testimonials', label: 'Reviews', id: 'nav-link-reviews' }, { href: '#compare', label: 'Compare', id: 'nav-link-compare' }].forEach(item => {
         const li = document.createElement('li');
         const a = document.createElement('a');
-        a.href = item.href; a.textContent = item.label;
+        a.href = item.href;
+        a.textContent = item.label;
         a.id = item.id;
-        li.appendChild(a); ul.insertBefore(li, cta);
+        li.appendChild(a);
+        ul.insertBefore(li, cta);
     });
 })();
 
+/* ── Scroll spy navigation ── */
 (function () {
     const allSections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
@@ -432,6 +483,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     allSections.forEach(s => io.observe(s));
 })();
 
+/* ── Shutter type image switcher ── */
 function updateShutter(type, label, element) {
     const imgEl = document.getElementById('main-shutter-img');
     const badge = document.getElementById('type-badge');
@@ -477,10 +529,7 @@ function applyTint(degrees) {
     }
 }
 
-// Puter AI Shutter Concept Generator
-// To use your own Puter account for all visitors, set your Puter Auth Token here.
-// (You can copy your token from puter.com console by typing `puter.authToken`)
-// Puter AI Shutter Concept Generator
+/* ── AI Shutter Concept Generator ── */
 const PUTER_AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InYyIn0.eyJ0IjoidCIsInYiOiIyIiwidG9rZW5fdWlkIjoiNTY4MDE3NmYtNGM1MS00MGM1LWE0NzgtZTViNzFhYzJjNzQwIiwidXUiOiJhK0FHSVlxelFxU3NLSC9hZUZmRkdBPT0iLCJzdSI6IjZvbVkzdUhuU0IrajUyUVpSNXpVS2c9PSIsImFpIjoiYStBR0lZcXpRcVNzS0gvYWVGZkZHQT09IiwiZnVsbF9hY2Nlc3MiOnRydWUsImlhdCI6MTc5MzU0MzE2OX0.pJdgJz8wA_p1k5K8fpNRbHWGGGOOv3g3FHLzK4V9oOI';
 
 if (typeof puter !== 'undefined') {
@@ -497,32 +546,34 @@ const aiResultImage = document.getElementById('ai-result-image');
 const aiResultMessage = document.getElementById('ai-result-message');
 const aiResultStatus = document.getElementById('ai-result-status');
 
-if (shopPhotoInput) shopPhotoInput.addEventListener('change', () => {
-    const file = shopPhotoInput.files && shopPhotoInput.files[0];
-    uploadedShopPhotoDataUrl = '';
-    uploadedShopPhotoFile = null;
-    if (!file) return;
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-        shopPhotoInput.value = '';
-        shopPhotoStatus.textContent = 'Please choose a JPG, PNG or WebP image.';
-        return;
-    }
-    if (file.size > 8 * 1024 * 1024) {
-        shopPhotoInput.value = '';
-        shopPhotoStatus.textContent = 'That image is over 8 MB. Choose a smaller photo.';
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-        uploadedShopPhotoFile = file;
-        uploadedShopPhotoDataUrl = String(reader.result || '');
-        shopPhotoPreview.src = uploadedShopPhotoDataUrl;
-        shopPhotoPreview.hidden = false;
-        shopPhotoStatus.textContent = file.name + ' selected. Your photo stays in this page until you generate.';
-    };
-    reader.onerror = () => { shopPhotoStatus.textContent = 'Could not read that image. Please try another file.'; };
-    reader.readAsDataURL(file);
-});
+if (shopPhotoInput) {
+    shopPhotoInput.addEventListener('change', () => {
+        const file = shopPhotoInput.files && shopPhotoInput.files[0];
+        uploadedShopPhotoDataUrl = '';
+        uploadedShopPhotoFile = null;
+        if (!file) return;
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+            shopPhotoInput.value = '';
+            shopPhotoStatus.textContent = 'Please choose a JPG, PNG or WebP image.';
+            return;
+        }
+        if (file.size > 8 * 1024 * 1024) {
+            shopPhotoInput.value = '';
+            shopPhotoStatus.textContent = 'That image is over 8 MB. Choose a smaller photo.';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            uploadedShopPhotoFile = file;
+            uploadedShopPhotoDataUrl = String(reader.result || '');
+            shopPhotoPreview.src = uploadedShopPhotoDataUrl;
+            shopPhotoPreview.hidden = false;
+            shopPhotoStatus.textContent = file.name + ' selected. Your photo stays in this page until you generate.';
+        };
+        reader.onerror = () => { shopPhotoStatus.textContent = 'Could not read that image. Please try another file.'; };
+        reader.readAsDataURL(file);
+    });
+}
 
 document.querySelectorAll('input[name="ai-mechanism"]').forEach(input => input.addEventListener('change', () => {
     document.querySelectorAll('.ai-option').forEach(label => {
@@ -575,29 +626,19 @@ async function generateShutterConcept() {
         }
     }
 
-    // DEEPAI FALLBACK CONFIGURATION
-    const DEEPAI_API_URL = 'https://api.deepai.org/api/image-editor';
     const DEEPAI_API_KEY = 'YOUR_DEEPAI_KEY';
-
-    // Client-side daily limit (not secure IP enforcement)
     const IMAGE_DAILY_LIMIT = 2;
     const IMAGE_LIMIT_KEY = 'supreme_image_daily_usage';
 
     function checkImageLimit() {
         const today = new Date().toISOString().slice(0, 10);
-
-        let usage = JSON.parse(
-            localStorage.getItem(IMAGE_LIMIT_KEY) || '{}'
-        );
-
+        let usage = JSON.parse(localStorage.getItem(IMAGE_LIMIT_KEY) || '{}');
         if (usage.date !== today) {
             usage = { date: today, count: 0 };
         }
-
         if (usage.count >= IMAGE_DAILY_LIMIT) {
             throw new Error('Daily limit reached: Only 2 image requests per day.');
         }
-
         return usage;
     }
 
@@ -623,10 +664,8 @@ async function generateShutterConcept() {
 
     try {
         const usage = checkImageLimit();
-
         let outputSrc = '';
 
-        // PRIMARY: PUTER AI
         try {
             const response = await puter.ai.txt2img(prompt, {
                 model: 'seedream-5-0-lite-260128',
@@ -646,53 +685,37 @@ async function generateShutterConcept() {
             }
 
         } catch (puterError) {
-
-            // FALLBACK: DEEPAI IMAGE EDITOR
             aiResultStatus.textContent = 'Trying DeepAI...';
-
+            const DEEPAI_API_URL = 'https://api.deepai.org/api/image-editor';
             const formData = new FormData();
-
             formData.append('image', uploadedShopPhotoFile);
             formData.append('text', prompt);
 
             const deepAIResponse = await fetch(DEEPAI_API_URL, {
                 method: 'POST',
-                headers: {
-                    'api-key': DEEPAI_API_KEY
-                },
+                headers: { 'api-key': DEEPAI_API_KEY },
                 body: formData
             });
-
             const deepAIResult = await deepAIResponse.json();
 
             if (!deepAIResponse.ok || !deepAIResult.output_url) {
-                throw new Error(
-                    deepAIResult.err || 'Both image providers failed.'
-                );
+                throw new Error(deepAIResult.err || 'Both image providers failed.');
             }
-
             outputSrc = deepAIResult.output_url;
         }
 
-        // Count successful image generations
         recordImageUsage(usage);
-
         aiResultImage.src = outputSrc;
         aiResultImage.hidden = false;
-
         const download = document.getElementById('ai-result-download');
         download.href = outputSrc;
         download.hidden = false;
-
         aiResultStatus.textContent = 'Concept ready';
-
-        aiResultMessage.textContent =
-            'Image successfully generated. Review the concept before installation.';
+        aiResultMessage.textContent = 'Image successfully generated. Review the concept before installation.';
 
     } catch (error) {
         aiResultStatus.textContent = 'Generation failed';
         aiResultMessage.textContent = error.message;
-
     } finally {
         button.disabled = false;
         button.style.opacity = '1';
@@ -702,6 +725,7 @@ async function generateShutterConcept() {
 const generateShutterButton = document.getElementById('generate-shutter-btn');
 if (generateShutterButton) generateShutterButton.addEventListener('click', generateShutterConcept);
 
+/* ── Before/After Slider ── */
 (function initBeforeAfter() {
     const sliders = document.querySelectorAll('.ba-slider-wrap');
     sliders.forEach(slider => {
@@ -718,6 +742,7 @@ if (generateShutterButton) generateShutterButton.addEventListener('click', gener
             handle.style.left = pos + '%';
             divider.style.left = pos + '%';
         }
+
         slider.addEventListener('mousedown', (e) => { isDragging = true; updateSlider(e.clientX); });
         document.addEventListener('mousemove', (e) => { if (!isDragging) return; updateSlider(e.clientX); });
         document.addEventListener('mouseup', () => { isDragging = false; });
@@ -727,53 +752,55 @@ if (generateShutterButton) generateShutterButton.addEventListener('click', gener
     });
 })();
 
+/* ── Service Map District Data ── */
+const districtData = {
+    rajapalayam: {
+        enDesc: "Our headquarters and primary fabrication unit. Fastest response time, largest inventory, and direct access to our senior technicians.",
+        taDesc: "எங்கள் தலைமையகம் மற்றும் முதன்மையுர் உற்பத்தி பிரிவு. அதிவேக பதிலளிப்பு நேரம், மிகப்பெரிய இருப்பு மற்றும் எங்கள் மூத்த தொழில்நுட்ப வல்லுநர்களின் நேரடி அணுகல்.",
+        response: "2hr", responseTa: "2 மணி நேரம்"
+    },
+    madurai: {
+        enDesc: "Branch office with full installation capabilities. Serves central Tamil Nadu with dedicated stock and service team.",
+        taDesc: "முழு நிறுவல் திறன்களைக்கொண்ட கிளை அலுவலகம். அர்ப்பணிக்கப்பட்ட இருப்பு மற்றும் சேவைக் குழுவுடன் மத்திய தமிழ்நாட்டுக்கு சேவை செய்கிறது.",
+        response: "4hr", responseTa: "4 மணி நேரம்"
+    },
+    chennai: {
+        enDesc: "Metropolitan coverage with commercial and industrial focus. Regular dispatch from Rajapalayam HQ.",
+        taDesc: "வணிக மற்றும் தொழில்துறை மையத்துடன் பெருநகர கவரேஜ். ராஜபாளையம் தலைமையகத்தில் இருந்து வழக்கமான விநியோகம்.",
+        response: "24hr", responseTa: "24 மணி நேரம்"
+    },
+    coimbatore: {
+        enDesc: "Western Tamil Nadu hub. Strong presence in textile, manufacturing, and retail sectors.",
+        taDesc: "மேற்கு தமிழ்நாடு மையம். ஜவுளி, உற்பத்தி மற்றும் சில்லறை விற்பனைத் துறைகளில் வலுவான இருப்பு.",
+        response: "12hr", responseTa: "12 மணி நேரம்"
+    },
+    trichy: {
+        enDesc: "Central region coverage. Popular among warehouses, godowns, and industrial clients.",
+        taDesc: "மத்திய பிராந்திய கவரேஜ். கிடங்குகள், கோடவுன்கள் மற்றும் தொழில்துறை வாடிக்கையாளர்கள் மத்தியில் பிரபலமானது.",
+        response: "8hr", responseTa: "8 மணி நேரம்"
+    },
+    salem: {
+        enDesc: "Steel city installations with emphasis on heavy-duty and fire-rated shutters.",
+        taDesc: "ஹெவியு-டியூட்டி மற்றும் ஃபயர்-ரேட்டட் ஷட்டர்களுக்கு முக்கியத்துவம் அளிக்கும் எஃகு நகர நிறுவல்கள்.",
+        response: "10hr", responseTa: "10 மணி நேரம்"
+    },
+    tirunelveli: {
+        enDesc: "Southern district served directly from Rajapalayam HQ. High satisfaction in retail segment.",
+        taDesc: "தெற்கு மாவட்டம் ராஜபாளையம் தலைமையகத்தில் இருந்து நேரடியாக சேவை செய்யப்படுகிறது. சில்லறை விற்பனை பிரிவில் அதிக திருப்தி.",
+        response: "6hr", responseTa: "6 மணி நேரம்"
+    },
+    vellore: {
+        enDesc: "Northern Tamil Nadu reach. Growing presence in commercial and pharmaceutical sectors.",
+        taDesc: "வடக்கு தமிழ்நாடு கவரேஜ். வணிக மற்றும் மருந்துத்துறைகளில் வளர்ந்து வரும் இருப்பு.",
+        response: "18hr", responseTa: "18 மணி நேரம்"
+    }
+};
+
+/* ── Map District Click Handler ── */
 (function initServiceMap() {
     const districts = document.querySelectorAll('.map-district');
     const defaultCard = document.getElementById('map-default-card');
     const districtCard = document.getElementById('map-district-card');
-
-    const districtData = {
-        rajapalayam: {
-            enDesc: "Our headquarters and primary fabrication unit. Fastest response time, largest inventory, and direct access to our senior technicians.",
-            taDesc: "எங்கள் தலைமையகம் மற்றும் முதன்மை உற்பத்தி பிரிவு. அதிவேக பதிலளிப்பு நேரம், மிகப்பெரிய இருப்பு மற்றும் எங்கள் மூத்த தொழில்நுட்ப வல்லுநர்களின் நேரடி அணுகல்.",
-            response: "2hr", responseTa: "2 மணி நேரம்"
-        },
-        madurai: {
-            enDesc: "Branch office with full installation capabilities. Serves central Tamil Nadu with dedicated stock and service team.",
-            taDesc: "முழு நிறுவல் திறன்களைக் கொண்ட கிளை அலுவலகம். அர்ப்பணிக்கப்பட்ட இருப்பு மற்றும் சேவைக் குழுவுடன் மத்திய தமிழ்நாட்டிற்கு சேவை செய்கிறது.",
-            response: "4hr", responseTa: "4 மணி நேரம்"
-        },
-        chennai: {
-            enDesc: "Metropolitan coverage with commercial and industrial focus. Regular dispatch from Rajapalayam HQ.",
-            taDesc: "வணிக மற்றும் தொழில்துறை மையத்துடன் பெருநகர கவரேஜ். ராஜபாளையம் தலைமையகத்திலிருந்து வழக்கமான விநியோகம்.",
-            response: "24hr", responseTa: "24 மணி நேரம்"
-        },
-        coimbatore: {
-            enDesc: "Western Tamil Nadu hub. Strong presence in textile, manufacturing, and retail sectors.",
-            taDesc: "மேற்கு தமிழ்நாடு மையம். ஜவுளி, உற்பத்தி மற்றும் சில்லறை விற்பனைத் துறைகளில் வலுவான இருப்பு.",
-            response: "12hr", responseTa: "12 மணி நேரம்"
-        },
-        trichy: {
-            enDesc: "Central region coverage. Popular among warehouses, godowns, and industrial clients.",
-            taDesc: "மத்திய பிராந்திய கவரேஜ். கிடங்குகள், கோடவுன்கள் மற்றும் தொழில்துறை வாடிக்கையாளர்கள் மத்தியில் பிரபலமானது.",
-            response: "8hr", responseTa: "8 மணி நேரம்"
-        },
-        salem: {
-            enDesc: "Steel city installations with emphasis on heavy-duty and fire-rated shutters.",
-            taDesc: "ஹெவி-டியூட்டி மற்றும் ஃபயர்-ரேட்டட் ஷட்டர்களுக்கு முக்கியத்துவம் அளிக்கும் எஃகு நகர நிறுவல்கள்.",
-            response: "10hr", responseTa: "10 மணி நேரம்"
-        },
-        tirunelveli: {
-            enDesc: "Southern district served directly from Rajapalayam HQ. High satisfaction in retail segment.",
-            taDesc: "தெற்கு மாவட்டம் ராஜபாளையம் தலைமையகத்திலிருந்து நேரடியாக சேவை செய்யப்படுகிறது. சில்லறை விற்பனை பிரிவில் அதிக திருப்தி.",
-            response: "6hr", responseTa: "6 மணி நேரம்"
-        },
-        vellore: {
-            enDesc: "Northern Tamil Nadu reach. Growing presence in commercial and pharmaceutical sectors.",
-            taDesc: "வடக்கு தமிழ்நாடு கவரேஜ். வணிக மற்றும் மருந்துத் துறைகளில் வளர்ந்து வரும் இருப்பு.",
-            response: "18hr", responseTa: "18 மணி நேரம்"
-        }
-    };
 
     districts.forEach(district => {
         district.addEventListener('click', function () {
@@ -799,23 +826,22 @@ if (generateShutterButton) generateShutterButton.addEventListener('click', gener
 
             document.getElementById('district-name').textContent = isTa ? taFormattedName : formattedName;
             document.getElementById('district-desc').textContent = isTa ? data.taDesc : data.enDesc;
-            document.getElementById('district-installs').textContent = installs + (isTa ? '' : '');
-            document.getElementById('district-clients').textContent = clients + (isTa ? '' : '');
+            document.getElementById('district-installs').textContent = installs;
+            document.getElementById('district-clients').textContent = clients;
             document.getElementById('district-response').textContent = isTa ? data.responseTa : data.response;
 
             document.getElementById('district-cta').innerHTML = isTa
-                ? `${taFormattedName} இல் மேற்கோள் பெறுக <i class="fas fa-arrow-right"></i>`
+                ? `${taFormattedName} இல் மேற்கோள் பெறவும் <i class="fas fa-arrow-right"></i>`
                 : `Get Quote in ${formattedName} <i class="fas fa-arrow-right"></i>`;
 
             defaultCard.style.display = 'none';
             districtCard.style.display = 'block';
-
             setTimeout(() => { districtCard.classList.add('show'); }, 50);
         });
     });
 })();
 
-/* ── 25. COMPLETELY REBUILT TRANSLATION ENGINE ── */
+/* ── TRANSLATION ENGINE ── */
 function translatePage(lang) {
     const isTa = (lang === 'ta');
     localStorage.setItem('supreme-lang', lang);
@@ -829,15 +855,15 @@ function translatePage(lang) {
         if (el) el.innerHTML = isTa ? taHtml : enHtml;
     };
 
-    // 1. Navigation Brand & Links
+    // 1. Navigation
     setHtml('.nav-logo', 'Supreme<span>.</span>', 'சுப்ரீம்<span>.</span>');
     const navLinks = document.querySelectorAll('.nav-links a');
     const navTexts = isTa
-        ? ['தயாரிப்புகள்', 'செயல்முறை', 'பொருட்கள்', 'ஏன் நாங்கள்', 'விலை கணக்கீடு', 'மதிப்புரைகள்', 'ஒப்பிடுக', 'மேற்கோள் பெறுக']
+        ? ['தயாரிப்புகள்', 'செயல்முறை', 'பொருட்கள்', 'ஏன் நாங்கள்', 'விலை கணக்கீடு', 'மதிப்பூரைகள்', 'ஒப்பீடு', 'மேற்கோள் பெறுக']
         : ['Products', 'Process', 'Materials', 'Why Us', 'Price Calc', 'Reviews', 'Compare', 'Get Quote'];
     navLinks.forEach((a, i) => { if (navTexts[i]) a.textContent = navTexts[i]; });
 
-    // 2. Hero Section Elements
+    // 2. Hero Section
     setText('.hero-year',
         'EST. 2003 · RAJAPALAYAM & MADURAI & BANGALORE · PAN SOUTH INDIA DISTRIBUTION',
         'தொடக்கம் 2003 · ராஜபாளையம் & மதுரை & பெங்களூர் · தென்னிந்தியா முழுவதும் விநியோகம்'
@@ -857,7 +883,7 @@ function translatePage(lang) {
     const heroStatTexts = isTa ? ['செயலில் உள்ள ஆண்டுகள்', 'நிறுவல்கள்', 'வருட உத்தரவாதம்'] : ['Years Active', 'Installations', 'Year Warranty'];
     heroStatLabels.forEach((lbl, i) => { if (heroStatTexts[i]) lbl.textContent = heroStatTexts[i]; });
 
-    // 3. Marquee Texts
+    // 3. Marquee
     const marqueeSpans = document.querySelectorAll('.marquee-track span:not(.sep)');
     const marqueeTextsEn = ['Motorized Shutters', 'Gear Shutters', 'Manual Shutters', 'GI Grade Steel', 'Polycarbonate', '5 Year Warranty', 'Rajapalayam HQ', 'Bangalore Branch', 'Madurai Branch', 'Pan south india', 'Free Site Visit', '22 Years Expert'];
     const marqueeTextsTa = ['மோட்டார் ஷட்டர்கள்', 'கியர் ஷட்டர்கள்', 'மேனுவல் ஷட்டர்கள்', 'ஜிஐ கிரேடு ஸ்டீல்', 'பாலிகார்பனேட்', '5 வருட உத்தரவாதம்', 'ராஜபாளையம் தலைமையகம்', 'பெங்களூர் கிளை', 'மதுரை கிளை', 'தென்னிந்தியா முழுவதும்', 'இலவச தள வருகை', '22 ஆண்டுகள் நிபுணத்துவம்'];
@@ -868,7 +894,7 @@ function translatePage(lang) {
         if (idx !== -1) span.textContent = isTa ? marqueeTextsTa[idx % 12] : marqueeTextsEn[idx % 12];
     });
 
-    // 4. Metrics Strip Sections
+    // 4. Metrics Strip
     const metricEyebrows = document.querySelectorAll('.metric-eyebrow');
     const metricLabels = document.querySelectorAll('.metric-label');
     if (isTa) {
@@ -876,10 +902,10 @@ function translatePage(lang) {
         if (metricEyebrows[1]) metricEyebrows[1].textContent = 'நிறுவல்கள்';
         if (metricEyebrows[2]) metricEyebrows[2].textContent = 'விநியோகம்';
         if (metricEyebrows[3]) metricEyebrows[3].textContent = 'உத்தரவாதம்';
-        if (metricLabels[0]) metricLabels[0].textContent = 'ராஜபாளையம் & விருதுநகர் மாவட்டத்திற்கு தடையற்ற சேவை';
-        if (metricLabels[1]) metricLabels[1].textContent = 'கடைகள், கிடங்குகள், தொழிற்சாலைகள் & வீடுகள் முழுவதும் நிறுவப்பட்ட ஷட்டர்கள்';
+        if (metricLabels[0]) metricLabels[0].textContent = 'ராஜபாளையம் & விருதুনகர் மாவட்டத்திற்கு தடைபடாது சேவை';
+        if (metricLabels[1]) metricLabels[1].textContent = 'கடைகள், கிடங்குகள், தொழில்கள்கள் & வீடுகளில் முழுவதும் நிறுவப்பட்ட ஷட்டர்கள்';
         if (metricLabels[2]) metricLabels[2].textContent = 'தென்னிந்தியாவின் அனைத்து மாவட்டங்களுக்கும் சேவை — தலைமையகம் ராஜபாளையம், கிளை மதுரை & பெங்களூர்';
-        if (metricLabels[3]) metricLabels[3].textContent = 'உதிரி பாகங்கள் மற்றும் உழைப்புக்கான முழு உத்தரவாதம் — அனைத்து கோரிக்கைகளும் தீர்க்கப்படும்';
+        if (metricLabels[3]) metricLabels[3].textContent = 'உதிரி பாகங்கள் மற்றும் உழைப்புக்கு முழு உத்தரவாதம் — அனைத்து கோரிக்கைகளும் தீர்க்கப்படும்';
         setHtml('#dist-metric-text', 'தென்னிந்தியா<span style="font-size:1.6rem;color:var(--gold);">முழுவதும்</span>');
     } else {
         if (metricEyebrows[0]) metricEyebrows[0].textContent = 'Founded';
@@ -893,16 +919,16 @@ function translatePage(lang) {
         setHtml('#dist-metric-text', 'south india<span style="font-size:2rem;color:var(--gold);">wide</span>');
     }
 
-    // 5. Our Story Section (Legacy Story)
+    // 5. Our Story Section
     setText('#showcase .legacy-kicker', 'Our Story', 'எங்கள் கதை');
     setHtml('#showcase .legacy-heading', 'Two Decades of<br><em>Steel &amp; Trust</em>', 'இரண்டு தசாப்த கால<br><em>இரும்பு &amp; நம்பிக்கை</em>');
     const legacyBodies = document.querySelectorAll('#showcase .legacy-body');
     if (legacyBodies.length >= 2) {
         if (isTa) {
-            legacyBodies[0].textContent = '2003 இல் நிறுவப்பட்ட சுப்ரீம் ரோலிங் ஷட்டர்கள், தரமான தயாரிப்பும் நேர்மையான சேவையும் பிரிக்க முடியாதவை என்ற ஒரு கொள்கையின் கீழ் உருவாக்கப்பட்டது. ராஜபாளையத்தில் ஒரு சிறிய பட்டறையாகத் தொடங்கியது இன்று தென்னிந்தியாவின் நம்பகமான பிராண்டாக வளர்ந்துள்ளது, மதுரை மற்றும் பெங்களூரில் கிளைகளுடன் தென்னிந்தியாவின் அனைத்து மாவட்டங்களையும் சென்றடைகிறது.';
+            legacyBodies[0].textContent = '2003 இல் நிறுவப்பட்ட சுப்ரீம் ரோலிங் ஷட்டர்கள், தரமான தயாரிப்பு மற்றும் நேர்மையான சேவை பிளிக்க முடியாதவை என்று ஒரு கொள்கையின் கீழ் உருவாக்கப்பட்டது. ராஜபாளையத்தில் ஒரு சிறிய பட்டறையாகத் தொடங்கியது இன்று தென்னிந்தியாவின் நம்பகமான பிராண்டாக வளர்ந்துள்ளது, மதுரை மற்றும் பெங்களூரில் கிளைகளுடன் தென்னிந்தியாவின் அனைத்து மாவட்டங்களையும சென்றடைகிறது.';
             legacyBodies[1].textContent = 'நாங்கள் தயாரிக்கும் ஒவ்வொரு ஷட்டரும் அளவீடு செய்யப்பட்டு, எங்களது சொந்த பட்டறையில் வடிவமைக்கப்பட்டு, எங்களது நிரந்தர குழுவால் நிறுவப்படுகிறது. 5 வருட முழு உத்தரவாதத்துடன் வருகிறது. எந்தவொரு வெளிப்பணிகளும் இல்லை, சமரசங்களும் இல்லை.';
         } else {
-            legacyBodies[0].textContent = 'Established in 2003, Supreme Rolling Shutters was built on a single conviction — that quality fabrication and honest service are inseparable. What began as a modest workshop in Rajapalayam has grown into south india\'s trusted shutter brand, with a dedicated branch in Madurai , Bangalore and distribution reaching all districts of south india.';
+            legacyBodies[0].textContent = 'Established in 2003, Supreme Rolling Shutters was built on a single conviction — that quality fabrication and honest service are inseparable. What began as a modest workshop in Rajapalayam has grown into south india\'s trusted shutter brand, with a dedicated branch in Madurai, Bangalore and distribution reaching all districts of south india.';
             legacyBodies[1].textContent = 'Every shutter we manufacture is custom-built — measured on-site, fabricated in our own workshop, installed by our permanent team, and backed by a comprehensive 5-year warranty. No subcontracting. No shortcuts. No compromises.';
         }
     }
@@ -913,10 +939,10 @@ function translatePage(lang) {
     const pillarTags = document.querySelectorAll('#showcase .pillar-tag');
     if (isTa) {
         if (pillarTitles[0]) pillarTitles[0].textContent = 'சொந்த தயாரிப்பு';
-        if (pillarBodies[0]) pillarBodies[0].textContent = 'ஒவ்வொரு ஷட்டரும் எங்களது சொந்த பட்டறையிலேயே வெட்டப்பட்டு, உருட்டப்பட்டு, பற்றவைக்கப்பட்டு, தரம் சரிபார்க்கப்படுகிறது — வெளி ஆட்களிடம் வழங்கப்படுவதில்லை. இதனால் விரைவான விநியோகம் மற்றும் பொறுப்பு உறுதி செய்யப்படுகிறது.';
+        if (pillarBodies[0]) pillarBodies[0].textContent = 'ஒவ்வொரு ஷட்டரும் எங்களது சொந்த பட்டறையிலேயே வெட்டப்பட்டு, உருட்டப்பட்டு, பறவைக்கப்பட்டு, தரம் சரிபார்க்கப்படுகிறது — வெளி ஆட்களிடம் வழங்கப்படுவதில்லை. இதனால் விரைவான விநியோகம் மற்றும் பொருத்தப்பட்ட உறுதி செய்யப்படுகிறது.';
         if (pillarTags[0]) pillarTags[0].textContent = 'துல்லிய உற்பத்தி';
         if (pillarTitles[1]) pillarTitles[1].textContent = 'நிரந்தர நிறுவல் குழு';
-        if (pillarBodies[1]) pillarBodies[1].textContent = 'எங்கள் நிறுவல் குழுவினர் எங்களது முழுநேர ஊழியர்கள் — தற்காலிக தினக்கூலிகள் அல்ல. பயிற்சி பெற்ற மற்றும் பொறுப்புள்ள அவர்கள் மாவட்டம் முழுவதும் சுப்ரீம் தரத்தை வழங்குகிறார்கள்.';
+        if (pillarBodies[1]) pillarBodies[1].textContent = 'எங்களது நிறுவல் குழுவினர் எங்களது முழுநேர ஊழியர்கள் — தற்காலிக தினக்கூலிகள் அல்ல. பயிற்சி பெற்ற மற்றும் பொறுப்பான அவர்கள் மாவட்டம் முழுவதும் சுப்ரீம் தரத்தை வழங்குகிறார்கள்.';
         if (pillarTags[1]) pillarTags[1].textContent = 'திறமையான ஊழியர்கள்';
     } else {
         if (pillarTitles[0]) pillarTitles[0].textContent = 'In-House Fabrication';
@@ -933,13 +959,13 @@ function translatePage(lang) {
     if (isTa) {
         if (craftIndexes[0]) craftIndexes[0].textContent = 'தரம் 01';
         if (craftTitles[0]) craftTitles[0].textContent = 'பொருட்களின் தரம்';
-        if (craftBodies[0]) craftBodies[0].textContent = 'நாங்கள் சான்றளிக்கப்பட்ட ஜிஐ ஷீட், அதிக வலிமை கொண்ட எஃகு மற்றும் தரப்படுத்தப்பட்ட பாலிகார்பனேட் மட்டுமே பயன்படுத்துகிறோம். மறுசுழற்சி செய்யப்பட்ட பொருட்கள் அல்லது தரம் குறைந்த பொருட்கள் என்றும் பயன்படுத்தப்படாது.';
+        if (craftBodies[0]) craftBodies[0].textContent = 'நாங்கள் சான்றளிக்கப்பட்ட ஜிஐ ஷீட், அதிக வலிமை கொண்ட எஃகு மற்றும் தரப்படுத்தப்பட்ட பாலிகார்பனேட் மட்டுமே பயன்படுத்துகிறோம். மறுசுழற்சி செய்யப்பட்ட பொருட்கள் அல்லது தரம் குறைந்த பொருட்கள் என்று போன்றும் பயன்படுத்தப்படாதது.';
         if (craftIndexes[1]) craftIndexes[1].textContent = 'தரம் 02';
-        if (craftTitles[1]) craftTitles[1].textContent = 'பற்றவைப்பு தரம்';
+        if (craftTitles[1]) craftTitles[1].textContent = 'பிளவுவைப்பு தரம்';
         if (craftBodies[1]) craftBodies[1].textContent = 'அனைத்து கட்டமைப்பு வெல்டிங்குகளும் எம்ஐஜி (MIG) முறையில் முடிக்கப்பட்டு, துல்லியம் சரிபார்க்கப்படுகிறது. எங்களது ஷட்டர்கள் பல தசாப்த கால பயன்பாட்டை தாங்கக்கூடியவை.';
         if (craftIndexes[2]) craftIndexes[2].textContent = 'தரம் 03';
         if (craftTitles[2]) craftTitles[2].textContent = 'மேற்பரப்பு வடிவமைப்பு';
-        if (craftBodies[2]) craftBodies[2].textContent = 'அனைத்து ஷட்டர்களும் துரு எதிர்ப்பு பிரைமர் சிகிச்சையைப் பெறுகின்றன, அதைத் தொடர்ந்து எலக்ட்ரோஸ்டேடிக் பவுடர்-கோட் அல்லது எனாமல் பெயிண்ட் பூச்சு செய்யப்படுகின்றன.';
+        if (craftBodies[2]) craftBodies[2].textContent = 'அனைத்து ஷட்டர்களும் தூர் எதிர்ப்பு பிரைமர் சிகிச்சையைப் பெறுகின்றன, அதைத் தொடர்ந்து எலக்ட்ரோஸ்டாடிக் பவுடர்-கோட் அல்லது எனாமல் பைண்ட் பூசு செய்யப்படுகின்றன.';
     } else {
         if (craftIndexes[0]) craftIndexes[0].textContent = 'Standard 01';
         if (craftTitles[0]) craftTitles[0].textContent = 'Material Integrity';
@@ -956,7 +982,7 @@ function translatePage(lang) {
     const sectionLabels = document.querySelectorAll('.section-label');
     const sectionTitles = document.querySelectorAll('.section-title');
     const labelsEn = ['What We Offer', 'Materials We Trust & Use', 'How It Works', 'Why Supreme', 'Where We Serve', 'Common Questions', 'Instant Estimate', 'Get In Touch', 'Real Transformations', 'Coverage Map', 'Client Reviews', 'Product Comparison', 'Product Lab', 'You Might Also Need'];
-    const labelsTa = ['நாங்கள் வழங்குபவை', 'நாங்கள் நம்பும் பொருட்கள்', 'செயல்பாட்டு முறை', 'ஏன் சுப்ரீம்', 'எங்கள் சேவை பகுதிகள்', 'பொதுவான கேள்விகள்', 'உடனடி கணக்கீடு', 'தொடர்பு கொள்ள', 'உண்மையான மாற்றங்கள்', 'சேவை வரைபடம்', 'வாடிக்கையாளர் மதிப்புரைகள்', 'தயாரிப்பு ஒப்பீடு', 'தயாரிப்பு பரிசோதனைக்கூடம்', 'உங்களுக்கு இதுவும் தேவைப்படலாம்'];
+    const labelsTa = ['நாங்கள் வழங்குபவை', 'நாங்கள் நம்பும் பொருட்கள்', 'செயல்முறை முறை', 'ஏன் சுப்ரீம்', 'எங்கள் சேவை பகுதிகள்', 'பொதுவான கேள்விகள்', 'உடனடி கணக்கீடு', 'தொடர்பு கொள்ள', 'உண்மையான மாற்றங்கள்', 'சேவை வரைபடம்', 'வாடிக்கையாளர் மதிப்பூரைகள்', 'தயாரிப்பு ஒப்பீடு', 'தயாரிப்பு பரிசோதனைக்கூடம்', 'உங்களுக்கு இதுவும் தேவைப்படலாம்'];
 
     sectionLabels.forEach(lbl => {
         const txt = lbl.textContent.trim();
@@ -966,14 +992,14 @@ function translatePage(lang) {
 
     if (isTa) {
         if (sectionTitles[0]) sectionTitles[0].innerHTML = 'எங்கள் ஷட்டர் <em>தயாரிப்பு</em> வகைகள்';
-        if (sectionTitles[1]) sectionTitles[1].innerHTML = 'நாங்கள் நம்பி <em>பயன்படுத்தும்</em> பொருட்கள்';
+        if (sectionTitles[1]) sectionTitles[1].innerHTML = 'நாங்கள் நம்பி <em>பயன்படுத்தும்து</em> பொருட்கள்';
         if (sectionTitles[2]) sectionTitles[2].innerHTML = 'எங்கள் <em>5-படி</em> நிறுவல் செயல்முறை';
         if (sectionTitles[3]) sectionTitles[3].innerHTML = 'வாடிக்கையாளர்கள் எங்களை <em>தேர்ந்தெடுக்க</em> காரணங்கள்';
         if (sectionTitles[4]) sectionTitles[4].innerHTML = 'தென்னிந்தியா முழுவதும் <em>விநியோகம்</em>';
-        if (sectionTitles[5]) sectionTitles[5].innerHTML = 'அடிக்கடி <em>கேட்கப்படுபவை</em>';
+        if (sectionTitles[5]) sectionTitles[5].innerHTML = 'அடிக்கடி <em> கேட்கப்படவது</em>';
         if (sectionTitles[6]) sectionTitles[6].innerHTML = 'விலை <em>கணக்கீடு</em>';
-        if (sectionTitles[7]) sectionTitles[7].innerHTML = 'இலவச <em>மேற்கோள்</em> கோரவும்';
-        if (sectionTitles[8]) sectionTitles[8].innerHTML = 'நிறுவலுக்கு <em>முன்னர் &amp; பின்னர்</em>';
+        if (sectionTitles[7]) sectionTitles[7].innerHTML = 'இலவச <em>மேற்கோள்</em> கோருவம்';
+        if (sectionTitles[8]) sectionTitles[8].innerHTML = 'நிறுவலுக்கு <em>முன் &amp; பின்</em>';
         if (sectionTitles[9]) sectionTitles[9].innerHTML = 'தமிழ்நாடு <em>சேவை நெட்வொர்க்</em>';
         if (sectionTitles[10]) sectionTitles[10].innerHTML = 'வாடிக்கையாளர்கள் எங்களை <em>பற்றி</em> கூறுவது';
         if (sectionTitles[11]) sectionTitles[11].innerHTML = 'எந்த ஷட்டர் உங்களுக்கு <em>ஏற்றது?</em>';
@@ -994,26 +1020,26 @@ function translatePage(lang) {
         if (sectionTitles[12]) sectionTitles[12].innerHTML = 'Configure Your <em>Supreme</em> Shutter';
     }
 
-    // 7. Shutter Product Cards Descriptions
+    // 7. Shutter Product Cards
     const prodNames = document.querySelectorAll('#products .product-name');
     const prodDescs = document.querySelectorAll('#products .product-desc');
     const specTags = document.querySelectorAll('#products .spec-tag');
     const specEn = ['Remote Control', 'Auto Reverse', 'Timer Option', 'Silent Motor', 'No Power Needed', 'Smooth Gear Action', 'Heavy Duty', 'Low Maintenance', 'Budget Friendly', 'Easy Install', 'Lightweight Option', 'All Sizes', 'Anti-Lift Lock', 'Reinforced Slats', 'Double-Wall Option', 'Keyed Cylinder', 'Translucent', 'UV Resistant', 'Shatter-Proof', 'Light Weight', 'Fire Tested', 'Galvanised Steel', 'Auto Drop', 'Smoke Seal Option'];
-    const specTa = ['ரிமோட் கண்ட்ரோல்', 'தானியங்கி நிறுத்தம்', 'டைமர் விருப்பம்', 'சத்தமில்லா மோட்டார்', 'மின்சாரம் தேவையில்லை', 'மென்மையான கியர் இயக்கம்', 'அதிவேக உழைப்பு', 'குறைந்த பராமரிப்பு', 'பட்ஜெட் நட்பு', 'எளிதான நிறுவல்', 'குறைந்த எடை', 'அனைத்து அளவுகள்', 'எடுக்க முடியாத பூட்டு', 'வலுவூட்டப்பட்ட தடிமன்', 'இரட்டை சுவர் விருப்பம்', 'உருளை சாவி அமைப்பு', 'ஒளி ஊடுருவக்கூடியது', 'யுவி எதிர்ப்பு', 'உடையாத தரம்', 'குறைந்த எடை', 'தீ பரிசோதிக்கப்பட்டது', 'கால்வனேற்றப்பட்ட எஃகு', 'தானியங்கி வீழ்ச்சி', 'புகை தடுப்பு விருப்பம்'];
+    const specTa = ['ரிமோட் கண்ட்ரோல்', 'தானியங்கி நிறுத்தம்', 'டைமர் விருப்பம்', 'சத்தமில்லா மோட்டார்', 'மின்சாரம் தேவையில்லை', 'மெனமையான கியர் இயக்கம்', 'அதிவேக உழைப்பு', 'குறைந்த பராமரிப்பு', 'பட்ஜெட் நட்பு', 'எளிய நிறுவல்', 'குறைந்த எடை', 'அனைத்து அளவுகள்', 'எடுக்க முடியாத பூட்டு', 'வலுவுண்டப்பட்ட தடிமன்', 'இரட்டை சுவர் விருப்பம்', 'உருளை சாவி அமைப்பு', 'ஒளி ஊடறுவகை', 'யூவி எதிர்ப்பு', 'உடையாத தரம்', 'குறைந்த எடை', 'தீ பரிசோதிக்கப்பட்டது', 'காலுவனேற்றப்பட்ட எஃகு', 'தானியங்கி வீழ்ச்சி', 'புகை தடுப்பு விருப்பம்'];
 
     if (isTa) {
         if (prodNames[0]) prodNames[0].textContent = 'மோட்டார் ஷட்டர்கள்';
         if (prodDescs[0]) prodDescs[0].textContent = 'ரிமோட் கண்ட்ரோல் மற்றும் சுவிட்ச் மூலம் இயக்கப்படும் முழு தானியங்கி ரோலிங் ஷட்டர்கள். வணிக ஷோரூம்கள், கிடங்குகள் மற்றும் பெரிய நுழைவாயில்களுக்கு வசதியானது.';
         if (prodNames[1]) prodNames[1].textContent = 'கியர் ஷட்டர்கள்';
-        if (prodDescs[1]) prodDescs[1].textContent = 'மின்சாரம் தேவையின்றி மென்மையான கைமுறை இயக்கத்தை வழங்கும் மெக்கானிக்கல் கியர் ஷட்டர்கள். கடைகள், கேரேஜ்கள் மற்றும் தினசரி பயன்பாடுகளுக்கு ஏற்றது.';
+        if (prodDescs[1]) prodDescs[1].textContent = 'மின்சாரம் தேவையின்றி மெனமையான கைமுறை இயக்கத்தை வழங்கும் மெக்கானிக்கல் கியர் ஷட்டர்கள். கடைகள், கேரேஜ்கள் மற்றும் தினசரி பயன்பாடுகளுக்கு ஏற்றது.';
         if (prodNames[2]) prodNames[2].textContent = 'சாதாரண / புஷ் ஷட்டர்கள்';
         if (prodDescs[2]) prodDescs[2].textContent = 'கிளாசிக் புஷ்-அப் ரோலிங் ஷட்டர்கள் — குறைந்த செலவு, நீடித்த உழைப்பு மற்றும் நேரடியாக இயக்கக்கூடியவை. சிறிய கடைகள் மற்றும் குடியிருப்பு பயன்பாடுகளுக்கு ஏற்றது.';
         if (prodNames[3]) prodNames[3].textContent = 'உயர் பாதுகாப்பு ஷட்டர்கள்';
-        if (prodDescs[3]) prodDescs[3].textContent = 'ஆண்டி-லிப்ட் பூட்டுகள் மற்றும் சேதப்படுத்த முடியாத வடிவமைப்புடன் கூடுதல் வலுவூட்டப்பட்ட ஷட்டர்கள். வங்கிகள், நகைக்கடைகள் மற்றும் அதிக பாதுகாப்பு தேவைப்படும் இடங்களுக்கு ஏற்றது.';
+        if (prodDescs[3]) prodDescs[3].textContent = 'ஆண்டி-லிப்ட் பூட்டுகள் மற்றும் சேதப்படுத்த முடியாத வடிவமைப்புடன் கூடுதல் வலுவுண்டப்பட்ட ஷட்டர்கள். வங்கிகள், நகைக்கடைகள் மற்றும் அதிக பாதுகாப்பு தேவைப்படும் இடங்களுக்கு ஏற்றது.';
         if (prodNames[4]) prodNames[4].textContent = 'பாலிகார்பனேட் ஷட்டர்கள்';
-        if (prodDescs[4]) prodDescs[4].textContent = 'பாதுகாப்பைப் பேணுகையில் இயற்கை ஒளி ஊடுருவலுக்கான வெளிப்படையான பாலிகார்பனேட் ஷட்டர்கள். ஷோரூம் முகப்புகளுக்கு மிகவும் சிறந்தது.';
+        if (prodDescs[4]) prodDescs[4].textContent = 'பாதுகாப்பைப் பேணுகையில் இயற்கை ஒளி ஊடறுவலுக்கான வெளிப்படையான பாலிகார்பனேட் ஷட்டர்கள். ஷோரூம் முகப்புகளுக்கு மிகவும் சிறந்தது.';
         if (prodNames[5]) prodNames[5].textContent = 'தீ தடுப்பு ஷட்டர்கள்';
-        if (prodDescs[5]) prodDescs[5].textContent = 'தொழிற்சாலைகள் மற்றும் வணிக வளாகங்களில் பாதுகாப்பு விதிகளின்படி அதிக வெப்பநிலையைத் தாங்கும் வகையில் சோதிக்கப்பட்ட எஃகு ஷட்டர்கள்.';
+        if (prodDescs[5]) prodDescs[5].textContent = 'தொழில்காளைகள் மற்றும் வணிக வளாகங்களில் பாதுகாப்பு விதிகளன்படி அதிக வெப்பநிலையைத் தாங்கும் வகையில் சோதிக்கப்பட்ட எஃகு ஷட்டர்கள்.';
     } else {
         if (prodNames[0]) prodNames[0].textContent = 'Motorized Shutters';
         if (prodDescs[0]) prodDescs[0].textContent = 'Fully automated rolling shutters with remote control & switch operation. Ideal for commercial showrooms, warehouses, and large openings where convenience is paramount.';
@@ -1035,18 +1061,18 @@ function translatePage(lang) {
         if (idx !== -1) tag.textContent = isTa ? specTa[idx % specEn.length] : specEn[idx % specEn.length];
     });
 
-    // 8. Materials Section Translations
+    // 8. Materials Section
     const matNames = document.querySelectorAll('#materials .material-name');
     const matDescs = document.querySelectorAll('#materials .material-desc');
     if (isTa) {
-        if (matNames[0]) matNames[0].textContent = 'கால்வனேற்றப்பட்ட இரும்பு (GI)';
-        if (matDescs[0]) matDescs[0].textContent = 'சிறந்த துரு எதிர்ப்பு மற்றும் கட்டமைப்பு வலிமையை வழங்கும் ஹாட்-டிப் கால்வனேற்றப்பட்ட இரும்பு தாள்கள். அனைத்து வானிலை நிலைகளிலும் நீண்ட காலம் உழைக்கும்.';
+        if (matNames[0]) matNames[0].textContent = 'காலுவனேற்றப்பட்ட இரும்பு (GI)';
+        if (matDescs[0]) matDescs[0].textContent = 'சிறந்த தூர் எதிர்ப்பு மற்றும் கட்டமைப்பு வலிமையை வழங்கும் ஹாட்-டிப் காலுவனேற்றப்பட்ட இரும்பு தாள். அனைத்து வானிலை நிலைகளிலும் நீண்ட காலம் உழைக்கும்.';
         if (matNames[1]) matNames[1].textContent = 'உயர் ரக எஃகு (Steel)';
-        if (matDescs[1]) matDescs[1].textContent = 'அதிக இழுவிசை வலிமைக்காக வெப்ப-சிகிச்சை செய்யப்பட்ட எஃகு தாள்கள். தொழில்துறை மற்றும் உயர் பாதுகாப்பு பயன்பாடுகளுக்கு விரும்பப்படுகிறது.';
+        if (matDescs[1]) matDescs[1].textContent = 'அதிக இழுவிசை வலிமைக்காக வெப்ப-சிகிச்சை செய்யப்பட்ட எஃகு தாள். தொழில்துறை மற்றும் உயர் பாதுகாப்பு பயன்பாடுகளுக்கு விருப்பப்படுகிறது.';
         if (matNames[2]) matNames[2].textContent = 'பாலிகார்பனேட் (Polycarbonate)';
-        if (matDescs[2]) matDescs[2].textContent = 'கண்ணாடியை விட 250 மடங்கு அதிக தாக்க எதிர்ப்பைக் கொண்ட உடையாத வெளிப்படையான பேனல்கள். மஞ்சள் நிறமாவதைத் தடுக்க இயற்கையாகவே யுவி-நிலைப்படுத்தப்பட்டது.';
-        if (matNames[3]) matNames[3].textContent = 'துருப்பிடிக்காத எஃகு (Stainless Steel)';
-        if (matDescs[3]) matDescs[3].textContent = 'மருந்து, உணவு பதப்படுத்துதல் மற்றும் கடலோர சூழல்களுக்குத் தேவையான சுகாதாரமான மற்றும் அதிக அரிப்பு எதிர்ப்பு கொண்ட SS 304 மற்றும் SS 316 விருப்பங்கள்.';
+        if (matDescs[2]) matDescs[2].textContent = 'கண்ணாடியை விட 250 மடங்கு அதிக தாக்க எதிர்ப்பைக்கொண்ட உடையாத வெளிப்படையான பேனல்கள். மஞ்சள் நிறமாக்கத்தைத் தடுக்க இயற்கையாகவே யூவி-நிலைப்படுத்தப்பட்டது.';
+        if (matNames[3]) matNames[3].textContent = 'தூர்ப்பிடாத எஃகு (Stainless Steel)';
+        if (matDescs[3]) matDescs[3].textContent = 'மருந்து, உணவு பதப்படுத்தல் மற்றும் கடலோர சூழல்களுக்குத் தேவையான சுகாதாரமான மற்றும் அதிக அரிப்பு எதிர்ப்பு கொண்ட SS 304 மற்றும் SS 316 விருப்பங்கள்.';
         setText('#mat-visual-label-id', '— தொழில்துறை தர உற்பத்தி');
     } else {
         if (matNames[0]) matNames[0].textContent = 'Galvanised Iron (GI)';
@@ -1067,13 +1093,13 @@ function translatePage(lang) {
         if (stepTitles[0]) stepTitles[0].textContent = 'விசாரணை & ஆலோசனைகள்';
         if (stepDescs[0]) stepDescs[0].textContent = 'எங்களை அழைக்கவும் அல்லது வாட்ஸ்அப் செய்யவும். ஷட்டர் வகை, அளவு, பொருள் மற்றும் பயன்பாடு ஆகியவற்றைப் புரிந்து கொள்கிறோம்.';
         if (stepTitles[1]) stepTitles[1].textContent = 'இலவச தள வருகை';
-        if (stepDescs[1]) stepDescs[1].textContent = 'எங்கள் தொழில்நுட்ப வல்லுநர் உங்கள் தளத்தைப் பார்வையிட்டு, துல்லியமான அளவீடுகளை எடுத்து கட்டமைப்பை மதிப்பிடுகிறார்.';
+        if (stepDescs[1]) stepDescs[1].textContent = 'எங்களது தொழில்நுட்ப வல்லுநர் உங்கள் தளத்தைப் பார்வையிட்டு, துல்லியமான அளவீடுகளை எடுத்து கட்டமைப்பை மதிப்பிடுகிறார்.';
         if (stepTitles[2]) stepTitles[2].textContent = 'விலை மேற்கோள்';
-        if (stepDescs[2]) stepDescs[2].textContent = 'நாங்கள் ஒரு வெளிப்படையான மேற்கோளை வழங்குகிறோம். மறைமுக கட்டணங்கள் இல்லை — பொருள், உற்பத்தி மற்றும் பொருத்துதல் அனைத்தும் அடங்கும்.';
+        if (stepDescs[2]) stepDescs[2].textContent = 'நாங்கள் ஒரு வெளிப்படையான மேற்கோளை வழங்குகிறோம். மறைமுக கட்டணங்கள் இல்லை — பொருள், உற்பத்தி மற்றும் பிளாடிங் அனைத்தும் அடங்கும்.';
         if (stepTitles[3]) stepTitles[3].textContent = 'உற்பத்தி செயல்முறை';
-        if (stepDescs[3]) stepDescs[3].textContent = 'ஷட்டர்கள் எங்களது சொந்த பட்டறையில் துல்லியமான விவரக்குறிப்புகளுக்கு ஏற்ப தனிப்பயனாக்கப்பட்டு தரம் சரிபார்க்கப்படுகின்றன.';
+        if (stepDescs[3]) stepDescs[3].textContent = 'ஷட்டர்கள் எங்களது சொந்த பட்டறையில் துல்லியமான விவரக்குறிப்புகளுக்கு ஏற்ப தனிப்பயனாக உருவாக்கப்பட்டு தரம் சரிபார்க்கப்படுகின்றன.';
         if (stepTitles[4]) stepTitles[4].textContent = 'நிறுவல் & உத்தரவாதம்';
-        if (stepDescs[4]) stepDescs[4].textContent = 'எங்கள் குழுவின் தொழில்முறை நிறுவலைத் தொடர்ந்து முழு செயல்பாட்டு சோதனை மற்றும் 5 வருட சேவை உத்தரவாதம் வழங்கப்படுகிறது.';
+        if (stepDescs[4]) stepDescs[4].textContent = 'எங்களது குழுவின் தொழிலமுறை நிறுவலைத் தொடர்ந்து முழு செயல்பாட்டு சோதனை மற்றும் 5 வருட சேவை உத்தரவாதம் வழங்கப்படுகிறது.';
     } else {
         if (stepTitles[0]) stepTitles[0].textContent = 'Inquiry & Consultation';
         if (stepDescs[0]) stepDescs[0].textContent = 'Call or WhatsApp us. We understand your requirement — shutter type, size, material, and application.';
@@ -1087,22 +1113,22 @@ function translatePage(lang) {
         if (stepDescs[4]) stepDescs[4].textContent = 'Professional installation by our team followed by full operational testing and 5-year service warranty.';
     }
 
-    // 10. Why Choose Us Bullet Points
+    // 10. Why Choose Us
     const whyTitles = document.querySelectorAll('#why .why-item-title');
     const whyDescs = document.querySelectorAll('#why .why-item-desc');
     if (isTa) {
         if (whyTitles[0]) whyTitles[0].textContent = '22 ஆண்டுகள் உள்ளூர் நிபுணத்துவம்';
         if (whyDescs[0]) whyDescs[0].textContent = '2003 இல் நிறுவப்பட்ட நாங்கள், ராஜபாளையம் மற்றும் அதைச் சுற்றியுள்ள பகுதிகளில் 10 ஆயிரத்திற்கும் மேற்பட்ட ஷட்டர்களை நிறுவியுள்ளோம். உள்ளூர் தேவைகளை நாங்கள் அறிவோம்.';
         if (whyTitles[1]) whyTitles[1].textContent = '5 வருட முழு சேவை உத்தரவாதம்';
-        if (whyDescs[1]) whyDescs[1].textContent = 'ஒவ்வொரு நிறுவலும் பாகங்கள் மற்றும் உழைப்பு இரண்டையும் உள்ளடக்கிய 60 மாத விரிவான உத்தரவாதத்துடன் வருகிறது. எந்த கேள்வியும் இன்றி சரிசெய்வோம்.';
+        if (whyDescs[1]) whyDescs[1].textContent = 'ஒவ்வொரு நிறுவலும் பாகங்கள் மற்றும் உழைப்பு இரண்டையும் உள்ளடக்கிய 60 மாத விரிவான உத்தரவாதத்துடன் வருகிறது. எந்தக் கேள்ியும் இன்றி சரிசெய்வோம்.';
         if (whyTitles[2]) whyTitles[2].textContent = 'தனிப்பயன் உற்பத்தி — எந்த அளவிலும்';
         if (whyDescs[2]) whyDescs[2].textContent = 'சிறிய 4 அடி கடை திறப்புகள் முதல் 30 அடி தொழில்துறை கிடங்கு கதவுகள் வரை, ஒவ்வொரு ஷட்டரையும் துல்லியமான அளவீடுகளுக்கு ஏற்ப உருவாக்குகிறோம்.';
         if (whyTitles[3]) whyTitles[3].textContent = 'வெளிப்படையான விலையிடல்';
         if (whyDescs[3]) whyDescs[3].textContent = 'வேலை தொடங்கும் முன் விரிவான மேற்கோள்களை வழங்குகிறோம். பொருள் செலவுகள், போக்குவரத்து மற்றும் நிறுவல் கட்டணங்கள் தெளிவாக பிரிக்கப்பட்டுள்ளன.';
-        if (whyTitles[4]) whyTitles[4].textContent = 'நிறுவலுக்குப் பிந்தைய ஆதரவு';
-        if (whyDescs[4]) whyDescs[4].textContent = 'எங்கள் உறவு நிறுவலுடன் முடிவடையாது. உங்கள் ஷட்டர்களை பல தசாப்தங்களாக இயக்க அவசர முறிவு வருகைகள் மற்றும் பராமரிப்பு ஒப்பந்தங்களை வழங்குகிறோம்.';
+        if (whyTitles[4]) whyTitles[4].textContent = 'நிறுவலுக்குப்பின் ஆதரவு';
+        if (whyDescs[4]) whyDescs[4].textContent = 'எங்களது உறவு நிறுவலுடன் முடிவடையாது. உங்கள் ஷட்டர்களை பல தசாப்தங்களாக இயக்க அவசர முறிவு வருகைகள் மற்றும் பராமரிப்பு ஒப்பந்தங்களை வழங்குகிறோம்.';
         setText('#why .callout-big', 'இலவச தள வருகை & மதிப்பீடு');
-        setText('#why .callout-sub', 'எந்தவொரு கட்டாயமும் இல்லை. எங்களது அனுபவம் வாய்ந்த தொழில்நுட்ப வல்லுநர் உங்கள் தளத்தைப் பார்வையிட்டு, முற்றிலும் இலவசமாக விரிவான மேற்கோளை வழங்குவார்.');
+        setText('#why .callout-sub', 'எந்தவொரு கடையயுமில்லை. எங்களது அனுபவம் வாய்ந்த தொழில்நுட்ப வல்லுநர் உங்கள் தளத்தைப் பார்வையிட்டு, முற்றிலும் இலவசமாக விரிவான மேற்கோளை வழங்குவார்.');
     } else {
         if (whyTitles[0]) whyTitles[0].textContent = '22 Years of Local Expertise';
         if (whyDescs[0]) whyDescs[0].textContent = 'Founded in 2003, we have installed over 10k+ shutters across Rajapalayam and the surrounding district. Our team knows local building codes, climate demands, and customer expectations inside out.';
@@ -1133,21 +1159,21 @@ function translatePage(lang) {
         if (warrantySpans[3]) warrantySpans[3].textContent = 'On-Site Visit';
     }
 
-    // 12. Geographic Service Coverage Network Text
+    // 12. Geographic Service Coverage
     setText('.area-main-desc',
         'Headquartered in Rajapalayam with a branch office in Madurai and Bangalore Supreme Rolling Shutters distributes and installs across all districts of south india. Our teams are equipped for on-site visits, fabrication dispatch, and post-installation service statewide.',
-        'ராஜபாளையத்தை தலைமையிடமாகக் கொண்டு, மதுரை மற்றும் பெங்களூரில் கிளை அலுவலகங்களைக் கொண்டுள்ள சுப்ரீம் ரோலிங் ஷட்டர்கள் தென்னிந்தியாவின் அனைத்து மாவட்டங்களுக்கும் விநியோகம் செய்து நிறுவுகிறது. மாநிலம் தழுவிய சேவைக்கு எங்களது குழுக்கள் எப்போதும் தயாராக உள்ளன.'
+        'ராஜபாளையத்தை தலைமையிடமாகக் கொண்டு, மதுரை மற்றும் பெங்களூரில் கிளை அலுவலகங்களைக்கொண்டுள்ள சுப்ரீம் ரோலிங் ஷட்டர்கள் தென்னிந்தியாவின் அனைத்து மாவட்டங்களுக்கும் விநியோகம் செய்து நிறுவுகிறது. மாநிலம் தழுவிய சேவைக்கு எங்களது குழுகள் எப்போதும் தயாராக உள்ளன.'
     );
 
     const branchTags = document.querySelectorAll('.branch-card .branch-tag');
     const branchDescs = document.querySelectorAll('.branch-card .branch-desc');
     if (isTa) {
         if (branchTags[0]) branchTags[0].textContent = 'தலைமையகம்';
-        if (branchDescs[0]) branchDescs[0].textContent = 'விருதுநகர் மாவட்டம் · தொடக்கம் 2003 · முதன்மை பட்டறை & உற்பத்தி பிரிவு';
+        if (branchDescs[0]) branchDescs[0].textContent = 'விருதநகர் மாவட்டம் · தொடக்கம் 2003 · முதன்மை பட்டறை & உற்பத்தி பிரிவு';
         if (branchTags[1]) branchTags[1].textContent = 'கிளை அலுவலகம்';
         if (branchDescs[1]) branchDescs[1].textContent = 'மத்திய தமிழக மையம் · விற்பனை, தள வருகைகள் & நிறுவல் ஆதரவு';
         if (branchTags[2]) branchTags[2].textContent = 'கிளை அலுவலகம்';
-        if (branchDescs[2]) branchDescs[2].textContent = 'நெலமங்களா மையம் · விற்பனை, தள வருகைகள் & நிறுவல் ஆதரவு';
+        if (branchDescs[2]) branchDescs[2].textContent = 'நெலமங்கலா மையம் · விற்பனை, தள வருகைகள் & நிறுவல் ஆதரவு';
     } else {
         if (branchTags[0]) branchTags[0].textContent = 'Headquarters';
         if (branchDescs[0]) branchDescs[0].textContent = 'Virudhunagar District · Est. 2003 · Primary Workshop & Fabrication Unit';
@@ -1170,7 +1196,7 @@ function translatePage(lang) {
         if (areaStatLabels[3]) areaStatLabels[3].textContent = 'Office Locations';
     }
 
-    // 13. Interactive SVG Coverage Map Text Elements
+    // 13. Interactive SVG Coverage Map
     setText('#map-branch-marker-lbl', 'கிளை');
     setText('#map-hq-marker-lbl', 'தலைமையகம்');
     setText('#map-service-map-section .map-main-desc',
@@ -1180,7 +1206,7 @@ function translatePage(lang) {
     setText('#map-default-card .map-stat-card-title', 'Pan-Tamil Nadu Coverage', 'தமிழகம் தழுவிய சேவை நெட்வொர்க்');
     setText('#map-default-card .map-stat-card-value',
         'Explore our service network by selecting a marked district to view its installation details. Contact our team to confirm coverage, site-visit availability, and delivery timelines for your location.',
-        'நிறுவல் விவரங்களைக் காண குறிக்கப்பட்ட மாவட்டத்தைத் தேர்ந்தெடுக்கவும். உங்கள் பகுதியில் சேவை கிடைப்பது, தளப் பார்வை நேரம் மற்றும் விநியோக காலத்தை எங்கள் குழுவிடம் உறுதிப்படுத்தவும்.'
+        'நிறுவல் விவரங்களைக் காண குறிக்கப்பட்ட மாவட்டத்தைத் தேர்ந்தெடுக்கவும். உங்கள் பகுதியில் சேவை கிடைப்பது, தளப் பார்வை நேரம் மற்றும் விநியோக காலத்தை எங்களது குழுவிடம் உறுதிப்படுத்துவதும்.'
     );
     const mapLabels = document.querySelectorAll('#map-default-card .map-stat-label');
     if (isTa) {
@@ -1210,22 +1236,22 @@ function translatePage(lang) {
         if (districtLabels[3]) districtLabels[3].textContent = 'Response Time';
     }
 
-    // 14. FAQ Accordion Text Blocks
+    // 14. FAQ Accordion
     const faqQs = document.querySelectorAll('.faq-list .faq-q span');
     const faqAs = document.querySelectorAll('.faq-list .faq-a p');
     if (isTa) {
         if (faqQs[0]) faqQs[0].textContent = 'நிறுவலுக்கு எவ்வளவு நேரம் ஆகும்?';
-        if (faqAs[0]) faqAs[0].textContent = 'நிலையான ஒற்றை ஷட்டர் நிறுவல்கள் பொதுவாக சிமெண்ட் வேலை மற்றும் முடித்தல் உட்பட 3-5 மணி நேரம் ஆகும். பல ஷட்டர்கள் அல்லது பெரிய தொழில்துறை கதவுகளுக்கு 1-2 நாட்கள் தேவைப்படலாம்.';
+        if (faqAs[0]) faqAs[0].textContent = 'நிலையான ஒற்றை ஷட்டர் நிறுவல்கள் பொதுவாக சிமெண்ட் வேலை மற்றும் முடித்தல் உட்பட 3-5 மணி நேரம் ஆகும். பல ஷட்டர்கள் அல்லது பெரிய தொழில்துறை கதவுகள் 1-2 நாட்கள் தேவைப்படலாம்.';
         if (faqQs[1]) faqQs[1].textContent = 'கடலோரப் பகுதிகளுக்கு என்ன பொருட்களைப் பரிந்துரைக்கிறீர்கள்?';
-        if (faqAs[1]) faqAs[1].textContent = 'கடலோர சூழல்களுக்கு, பவுடர்-கோட் பூச்சு கொண்ட ஹாட்-டிப் கால்வனேற்றப்பட்ட எஃகு அல்லது அதிகபட்ச உப்பு-காற்று அரிப்பு எதிர்ப்பிற்காக துருப்பிடிக்காத எஃகு (SS 316) ஆகியவற்றை நாங்கள் வலுவாக பரிந்துரைக்கிறோம்.';
+        if (faqAs[1]) faqAs[1].textContent = 'கடலோர சூழல்களுக்கு, பவுடர்-கோட் பூசு கொண்ட ஹாட்-டிப் காலுவனேற்றப்பட்ட எஃகு அல்லது அதிகபட்ச உப்பு-காற்று அரிப்பு எதிர்ப்பிற்காக தூர்ப்பிடாத எஃகு (SS 316) ஆகியவற்றை நாங்கள் வலுவாக பரிந்துரைக்கிறோம்.';
         if (faqQs[2]) faqQs[2].textContent = 'ஏற்கனவே உள்ள எனது ஷட்டரில் மோட்டார் அமைப்பைப் பொருத்த முடியுமா?';
-        if (faqAs[2]) fontStyle = 'normal', faqAs[2].textContent = 'ஆம், பெரும்பாலான சந்தர்ப்பங்களில், தற்போதைய ஷட்டரின் கட்டமைப்பு மற்றும் டிரம் அசெம்பிளி நல்ல நிலையில் இருந்தால், நாங்கள் நேரடியாக ஒரு மோட்டார் மற்றும் கட்டுப்பாட்டு அமைப்பைப் பொருத்தலாம்.';
+        if (faqAs[2]) faqAs[2].textContent = 'ஆம், பெரும்பாலான சந்தர்ப்பங்களில், தற்போதைய ஷட்டரின் கட்டமைப்பு மற்றும் டிரம் அசெம்பிளி நல்ல நிலையில் இருந்தால், நாங்கள் நேரடியாக ஒரு மோட்டார் மற்றும் கட்டுப்பாட்டு அமைப்பைப் பொருத்தலாம்.';
         if (faqQs[3]) faqQs[3].textContent = '5 வருட உத்தரவாதம் எவற்றை உள்ளடக்கியது?';
         if (faqAs[3]) faqAs[3].textContent = 'உத்தரவாதமானது அனைத்து மெக்கானிக்கல் தோல்விகள், வெல்டிங் குறைபாடுகள், ஸ்பிரிங் சோர்வு மற்றும் சாதாரண செயல்பாட்டு பயன்பாட்டின் கீழ் மோட்டார் மின்னணு செயலிழப்புகளை உள்ளடக்கியது.';
         if (faqQs[4]) faqQs[4].textContent = 'உத்தரவாதக் காலத்திற்குப் பிறகு ஆண்டு பராமரிப்பு ஒப்பந்தங்களை வழங்குகிறீர்களா?';
-        if (faqAs[4]) faqAs[4].textContent = 'ஆம். வருடத்திற்கு இரண்டு திட்டமிடப்பட்ட சேவை வருகைகள், அனைத்து நகரும் பாகங்களின் உயவூட்டல் மற்றும் சரிசெய்தல், அவசர முறிவு பழுதுபார்ப்பு ஆகியவற்றை உள்ளடக்கிய ஆண்டு பராமரிப்பு ஒப்பந்தங்களை (AMC) நாங்கள் வழங்குகிறோம்.';
+        if (faqAs[4]) faqAs[4].textContent = 'ஆம். ஆண்டு பராமரிப்பு ஒப்பந்தங்களை (AMC) நாங்கள் வழங்குகிறோம் — வருடத்திற்கு இரண்டு திட்டமிடப்பட்ட சேவை வருகைகள், அனைத்து நகரும் பாகங்களின் உயவும் சரிசெய்தல், அவசர முறிவு பழுதுபார்ப்பு முதலியன.';
         if (faqQs[5]) faqQs[5].textContent = 'உங்கள் ஷட்டர்களின் பொதுவான ஆயுட்காலம் என்ன?';
-        if (faqAs[5]) faqAs[5].textContent = 'எங்கள் ஜிஐ மற்றும் எஃகு ஷட்டர்கள் அடிப்படை வருடாந்திர பராமரிப்புடன் 15-25 ஆண்டுகள் வரை நீடிக்கும். பாலிகார்பனேட் ஷட்டர்கள் 10-15 ஆண்டுகள் ஆயுட்காலம் கொண்டவை.';
+        if (faqAs[5]) faqAs[5].textContent = 'எங்களது ஜிஐ மற்றும் எஃகு ஷட்டர்கள் அடிப்படை வருடாந்திர பராமரிப்புடன் 15-25 ஆண்டுகள் வரை நீடிக்கும். பாலிகார்பனேட் ஷட்டர்கள் 10-15 ஆண்டுகள் ஆயுட்காலம் கொண்டவை.';
     } else {
         if (faqQs[0]) faqQs[0].textContent = 'How long does installation take?';
         if (faqAs[0]) faqAs[0].textContent = 'Standard single shutter installations typically take 3–5 hours including concrete work and finishing. Multiple shutters or large industrial doors may require 1–2 days. We always provide a time estimate before starting work.';
@@ -1241,7 +1267,7 @@ function translatePage(lang) {
         if (faqAs[5]) faqAs[5].textContent = 'Our GI and steel shutters regularly last 15–25 years with basic annual maintenance. Polycarbonate shutters have a typical lifespan of 10–15 years. Motorised components typically last 8–12 years depending on usage frequency.';
     }
 
-    // 15. Real-Time Price Estimator UI Elements
+    // 15. Real-Time Price Estimator UI
     const calcLabels = document.querySelectorAll('#calculator label');
     if (isTa) {
         if (calcLabels[0]) calcLabels[0].textContent = 'இயக்க முறை';
@@ -1249,18 +1275,18 @@ function translatePage(lang) {
         if (calcLabels[2]) calcLabels[2].textContent = 'அகலம் (அடி)';
         if (calcLabels[3]) calcLabels[3].textContent = 'உயரம் (அடி)';
         setText('.calc-sub-desc', 'உடனடி செலவு மதிப்பீட்டைப் பெற உங்கள் ஷட்டர் வகை மற்றும் அளவை உள்ளிடவும். தமிழ்நாடு, புதுச்சேரி, கேரளா, கர்நாடகா மற்றும் ஆந்திராவிற்கு செல்லுபடியாகும்.');
-        setText('#c-idle p', 'இயக்க முறை & பொருளைத் தேர்ந்தெடுத்து,\nஅளவை உள்ளிட்டு கணக்கிடவும்');
+        setText('#c-idle p', 'இயக்க முறை & பொருளைத் தேர்ந்தெடுத்தু, அளவை உள்ளிட்டு கணக்கிடவும்');
         setHtml('#calc-note-box', '<strong>செல்லுபடியாகும் பகுதிகள்:</strong> தமிழ்நாடு &nbsp;·&nbsp; புதுச்சேரி &nbsp;·&nbsp; கேரளா &nbsp;·&nbsp; கர்நாடகா &nbsp;·&nbsp; ஆந்திரா<br>விலையில் பொருட்கள் + நிறுவல் கட்டணம் அடங்கும். நேரடி ஆய்வுக்குப் பின் இறுதி விலை முடிவு செய்யப்படும்.');
-        setText('#calc-run-btn-txt', 'விலையைக் கணக்கிடுங்கள்');
+        setText('#calc-run-btn-txt', 'விலையைக் கணக்கிடங்கள்');
         setText('#calculator .calc-err', '⚠ கணக்கிடுவதற்கு முன் அனைத்து புலங்களையும் நிரப்பவும்.');
     } else {
         if (calcLabels[0]) calcLabels[0].textContent = 'Operation Type';
         if (calcLabels[1]) calcLabels[1].textContent = 'Material / Shutter Type';
         if (calcLabels[2]) calcLabels[2].textContent = 'Width (Feet)';
         if (calcLabels[3]) calcLabels[3].textContent = 'Height (Feet)';
-        setText('.calc-sub-desc', 'Enter your shutter type and size to get an instant cost estimate. Valid for Tamil Nadu, Puducherry & Kerala & karnataka & andhra.');
-        setText('#c-idle p', 'Select operation & material,\nenter size, then calculate');
-        setHtml('#calc-note-box', '<strong>Applicable regions:</strong> Tamil Nadu &nbsp;·&nbsp; Puducherry &nbsp;·&nbsp; Kerala &nbsp;·&nbsp; karnataka &nbsp;·&nbsp; andhra<br>Rates include supply + installation. Final quote after free site visit.');
+        setText('.calc-sub-desc', 'Enter your shutter type and size to get an instant cost estimate. Valid for Tamil Nadu, Puducherry, Kerala, Karnataka, and Andhra.');
+        setText('#c-idle p', 'Select operation & material, enter size, then calculate');
+        setHtml('#calc-note-box', '<strong>Applicable regions:</strong> Tamil Nadu &nbsp;·&nbsp; Puducherry &nbsp;·&nbsp; Kerala &nbsp;·&nbsp; Karnataka &nbsp;·&nbsp; Andhra<br>Rates include supply + installation. Final quote after free site visit.');
         setText('#calc-run-btn-txt', 'Calculate My Price');
         setText('#calculator .calc-err', '⚠ Please fill all fields before calculating.');
     }
@@ -1269,8 +1295,8 @@ function translatePage(lang) {
     if (cOp && cOp.options.length >= 4) {
         cOp.options[0].textContent = isTa ? 'இயக்க முறையைத் தேர்ந்தெடுக்கவும்…' : 'Select operation…';
         cOp.options[1].textContent = isTa ? 'கைமுறை புஷ் (Manual)' : 'Manual (Push)';
-        cOp.options[2].textContent = isTa ? 'கியர் மூலம் இயங்குவது' : 'Gear Operated';
-        cOp.options[3].textContent = isTa ? 'மோட்டார் மூலம் இயங்குவது' : 'Motor Operated (Automatic)';
+        cOp.options[2].textContent = isTa ? 'கியர் மூலம் இயக்குவது' : 'Gear Operated';
+        cOp.options[3].textContent = isTa ? 'மோட்டார் மூலம் இயக்குவது' : 'Motor Operated (Automatic)';
     }
     calcPopulateMat();
 
@@ -1281,7 +1307,7 @@ function translatePage(lang) {
         if (resLabels[2]) resLabels[2].textContent = 'இயக்க முறை';
         if (resLabels[3]) resLabels[3].textContent = 'பொருள்';
         setText('#c-res .res-eyebrow', 'மதிப்பிடப்பட்ட மொத்த செலவு');
-        setHtml('#c-res .res-footnote', '<strong>குறிப்பு:</strong> நிலையான நிறுவலை அடிப்படையாகக் கொண்ட செலவு. இலவச தள வருகைக்குப் பிறகு இறுதி விலை உறுதி செய்யப்படும் — சுவர் வகை மாறுபடலாம். <strong>செல்லுபடியாகும்: தமிழ்நாடு · புதுச்சேரி · கேரளா · கர்நாடகா · ஆந்திரா.</strong>');
+        setHtml('#c-res .res-footnote', '<strong>குறிப்பு:</strong> நிலையான நிறுவலை அடிப்படையாகக் கொண்ட செலவு. இலவச தள வருகைக்குப் பிறகு இறுதி விலை உறுதி செய்யப்படும் — சுவர் வகை மாறலாம். <strong>செல்லுபடியாகும்: தமிழ்நாடு · புதுச்சேரி · கேரளா · கர்நாடகா · ஆந்திரா.</strong>');
         setHtml('#c-res .wa-btn', '<i class="fab fa-whatsapp"></i> இந்த மேற்கோளை வாட்ஸ்அப் செய்யவும்');
     } else {
         if (resLabels[0]) resLabels[0].textContent = 'Width';
@@ -1289,11 +1315,11 @@ function translatePage(lang) {
         if (resLabels[2]) resLabels[2].textContent = 'Operation';
         if (resLabels[3]) resLabels[3].textContent = 'Material';
         setText('#c-res .res-eyebrow', 'Estimated Total Cost');
-        setHtml('#c-res .res-footnote', '<strong>Note:</strong> Estimate based on standard installation. Final price confirmed after free site visit — wall type, civil work & access conditions may vary. <strong>Valid: Tamil nadu · Puducherry · Kerala · karnataka · andhra.</strong>');
+        setHtml('#c-res .res-footnote', '<strong>Note:</strong> Estimate based on standard installation. Final price confirmed after free site visit — wall type, civil work & access conditions may vary. <strong>Valid: Tamil nadu · Puducherry · Kerala · Karnataka · Andhra.</strong>');
         setHtml('#c-res .wa-btn', '<i class="fab fa-whatsapp"></i> WhatsApp This Quote');
     }
 
-    // 16. Contact Block Inputs & Form Info
+    // 16. Contact Block
     const contactLabels = document.querySelectorAll('#contact label');
     if (isTa) {
         if (contactLabels[0]) contactLabels[0].textContent = 'தலைப்பு / பெயர்';
@@ -1316,10 +1342,10 @@ function translatePage(lang) {
         }
 
         document.getElementsByName('name')[0].placeholder = 'உங்கள் பெயரை உள்ளிடவும்';
-        document.getElementsByName('size')[0].placeholder = 'எ.கா. 10அடி × 8அடி';
-        document.getElementsByName('location')[0].placeholder = 'எ.கா. ராஜபாளையம், சிவகasi…';
+        document.getElementsByName('size')[0].placeholder = 'எ.கா. 10 அடி × 8 அடி';
+        document.getElementsByName('location')[0].placeholder = 'எ.கா. ராஜபாளையம், சிவகாசி…';
         document.getElementsByName('details')[0].placeholder = 'உங்கள் பயன்பாட்டைப் பற்றி எங்களிடம் கூறுங்கள் — கடை, கிடங்கு, வீடு போன்றவை.';
-        setHtml('#contact .form-submit', '<i class="fas fa-paper-plane"></i> விசாரணையை அனுப்பவும்');
+        setHtml('#contact .form-submit', '<i class="fas fa-paper-plane"></i> விசாரணையை அனுபவம்');
 
         const contactRowLabels = document.querySelectorAll('.contact-row-label');
         if (contactRowLabels[0]) contactRowLabels[0].textContent = 'வாட்ஸ்அப்';
@@ -1330,12 +1356,12 @@ function translatePage(lang) {
         if (contactRowLabels[5]) contactRowLabels[5].textContent = 'வேலை நேரம்';
 
         setText('#contact-wa-link', 'வாட்ஸ்அப்பில் அரட்டையடிக்க →');
-        setText('#contact-mail-link', 'மின்னஞ்சல் அனுப்ப →');
-        setText('#contact .contact-info .contact-row:nth-child(3) .contact-row-val', 'ராஜபாளையம், விருதுநகர் மாவட்டம், தமிழ்நாடு');
+        setText('#contact-mail-link', 'supremeshutters777@gmail.com →');
+        setText('#contact .contact-info .contact-row:nth-child(3) .contact-row-val', 'ராஜபாளையம், விருதநகர் மாவட்டம், தமிழ்நாடு');
         setText('#contact .contact-info .contact-row:nth-child(4) .contact-row-val', 'மதுரை, தமிழ்நாடு');
         setText('#contact .contact-info .contact-row:nth-child(4) .contact-subtext', 'மத்திய தமிழகம் — விற்பனை & நிறுவல் ஆதரவு');
         setText('#contact .contact-info .contact-row:nth-child(5) .contact-row-val', 'பெங்களூர், கர்நாடகா');
-        setText('#contact .contact-info .contact-row:nth-child(5) .contact-subtext', 'நெலமங்களா — விற்பனை & நிறுவல் ஆதரவு');
+        setText('#contact .contact-info .contact-row:nth-child(5) .contact-subtext', 'நெலமங்கலா — விற்பனை & நிறுவல் ஆதரவு');
         setText('#contact .contact-info .contact-row:nth-child(6) .contact-row-val', 'திங்கள் – சனி: காலை 8:00 – இரவு 9:00');
     } else {
         if (contactLabels[0]) contactLabels[0].textContent = 'Your Name';
@@ -1376,12 +1402,12 @@ function translatePage(lang) {
         setText('#contact .contact-info .contact-row:nth-child(3) .contact-row-val', 'Rajapalayam, Virudhunagar District, Tamil Nadu');
         setText('#contact .contact-info .contact-row:nth-child(4) .contact-row-val', 'Madurai, Tamil Nadu');
         setText('#contact .contact-info .contact-row:nth-child(4) .contact-subtext', 'Central TN — Sales & Installation Support');
-        setText('#contact .contact-info .contact-row:nth-child(5) .contact-row-val', 'Bangalore, karnataka');
+        setText('#contact .contact-info .contact-row:nth-child(5) .contact-row-val', 'Bangalore, Karnataka');
         setText('#contact .contact-info .contact-row:nth-child(5) .contact-subtext', 'Nelamangala — Sales & Installation Support');
         setText('#contact .contact-info .contact-row:nth-child(6) .contact-row-val', 'Mon – Sat: 8:00 AM – 9:00 PM');
     }
 
-    // 17. Before / After Gallery Sliders Text Content
+    // 17. Before / After Gallery
     const baLabelsBefore = document.querySelectorAll('.ba-label.before');
     const baLabelsAfter = document.querySelectorAll('.ba-label.after');
     baLabelsBefore.forEach(lbl => lbl.textContent = isTa ? 'முன்னர்' : 'Before');
@@ -1398,25 +1424,25 @@ function translatePage(lang) {
     baDescs.forEach(el => el.textContent = '');
     baMetas.forEach(el => el.innerHTML = '');
 
-    // 18. Smart Recommendation Header Text Block
+    // 18. Smart Recommendation Header
     setText('#smart-recs .recs-title', isTa ? 'உங்களுக்கு இதுவும் தேவைப்படலாம்' : 'You Might Also Need');
     setText('#smart-recs #recs-reason', isTa ? 'உங்கள் தேர்வுகளின் அடிப்படையில் பிரிக்கப்பட்டது' : 'Based on your selections');
 
-    // 19. Testimonials & Client Feedback Tracks
+    // 19. Testimonials
     const testiTexts = document.querySelectorAll('#testimonials .testi-text');
     const testiLocs = document.querySelectorAll('#testimonials .testi-loc');
     if (isTa) {
-        if (testiTexts[0]) testiTexts[0].textContent = '"எங்கள் முழு ஷோரூம் முகப்பையும் மாற்றினோம் — 4 மோட்டார் ஷட்டர்கள். முற்றிலும் சத்தமில்லாத இயக்கம், குறைபாடற்ற பூச்சு. தள வருகை முதல் ஒப்படைப்பு வரை சுப்ரீம் குழுவினர் தொழில்முறையாக செயல்பட்டனர். மிகவும் பரிந்துரைக்கிறேன்."';
+        if (testiTexts[0]) testiTexts[0].textContent = '"எங்கள் முழு ஷோரூம் முகப்பையும் மாற்றினோம் — 4 மோட்டார் ஷட்டர்கள். முற்றிலும் சத்தமில்லா இயக்கம், குறைபாடற்ற பூசு. தள வருகை முதல் ஒப்படைப்பு வரை சுப்ரீம் குழுவினர் தொழிலமுறையாக செயல்பட்டனர். மிகவும் பரிந்துரைக்கிறேன்."';
         if (testiLocs[0]) testiLocs[0].textContent = 'ராஜபாளையம் · ஷோரூம் உரிமையாளர்';
-        if (testiTexts[1]) testiTexts[1].textContent = '"நிறுவப்பட்ட 2 ஆண்டுகளுக்குப் பிறகு ஒரு சிறிய சிக்கலுக்காக அழைத்தேன் — அவர்கள் அடுத்த நாள் காலையிலேயே வந்து எந்த கட்டணமும் இன்றி அதை சரிசெய்தனர். அத்தகைய விற்பனைக்கு பிந்தைய சேவை அரிதானது. தயக்கமின்றி 5 நட்சத்திரங்கள்."';
-        if (testiLocs[1]) testiLocs[1].textContent = 'விருதுநகர் · கிடங்கு';
+        if (testiTexts[1]) testiTexts[1].textContent = '"நிறுவப்பட்ட 2 ஆண்டுகளுக்குப் பிறகு ஒரு சிறிய சிக்கலாக அழைத்தேன் — அவர்கள் அடுத்த நாள் காலையிலேயே வந்து எந்தக் கட்டணமும் இன்றி அதைச் சரிசெய்தனர். அத்தகைய விற்பனைக்குப் பிறைய சேவை அரிதானது. தயக்கமின்றி 5 நட்சத்திரங்கள்."';
+        if (testiLocs[1]) testiLocs[1].textContent = 'விருதநகர் · கிடங்கு';
         if (testiTexts[2]) testiTexts[2].textContent = '"எனது மருந்தகத்திற்கான பாலிகார்பனேட் ஷட்டர்கள் — மூடியிருக்கும் போது கூட வாடிக்கையாளர்கள் கடையைப் பார்க்க முடியும். தரம் சிறப்பாக உள்ளது மற்றும் விலை நியாயமானது. சுப்ரீம் நிறுவனத்தில் மிகவும் திருப்தி அடைகிறேன்."';
         if (testiLocs[2]) testiLocs[2].textContent = 'மதுரை · மருந்தகம்';
-        if (testiTexts[3]) testiTexts[3].textContent = '"எங்கள் தொழிற்சாலை வாயிலுக்கான தொழில்துறை ஷட்டர்கள் — 22 அடி அகலம். அதை அவர்கள் மிகச்சரியாக கையாண்டனர். மென்மையான கியர் செயல்பாடு, உறுதியான வெல்டிங் தரம் மற்றும் சொன்ன நேரத்தில் வழங்கப்பட்டது."';
-        if (testiLocs[3]) testiLocs[3].textContent = 'சிவகாசி · தொழிற்சாலை';
-        if (testiTexts[4]) testiTexts[4].textContent = '"பெங்களூர் கிளைக் குழு மிகவும் பொறுப்பாக செயல்பட்டது. நெலமங்களாவில் உள்ள எங்கள் கிடங்கில் 3 ஷட்டர்களை நிறுவினோம். நேர்த்தியான வேலை, நல்ல தொடர்பு மற்றும் வெளிப்படையான பில்லிங்."';
+        if (testiTexts[3]) testiTexts[3].textContent = '"எங்கள் தொழில்காலை வாயிலுக்கான தொழில்துறை ஷட்டர்கள் — 22 அடி அகலம். அதை அவர்கள் மிகச்சரியாகக் கையாண்டனர். மெனமையான கியர் செயல்பாடு, உறுதியான வெல்டிங் தரம் மற்றும் சொன்ன நேரத்தில் வழங்கப்பட்டது."';
+        if (testiLocs[3]) testiLocs[3].textContent = 'சிவகாசி · தொழில்காலை';
+        if (testiTexts[4]) testiTexts[4].textContent = '"பெங்களூர் கிளைக்குழு மிகவும் பொறுப்பாக செயல்பட்டது. நெலமங்கலாவில் உள்ள எங்கள் கிடங்கில் 3 ஷட்டர்களை நிறுவினோம். நேர்த்தியான வேலை, நல்ல தொடர்பு மற்றும் வெளிப்படையான பிலிங்."';
         if (testiLocs[4]) testiLocs[4].textContent = 'பெங்களூர் · தளவாட நிறுவனம்';
-        if (testiTexts[5]) testiTexts[5].textContent = '"10 ஆண்டுகள் பழமையான சுப்ரீம் ஷட்டர் இன்னும் சரியாக வேலை செய்கிறது — வருடாந்திர சேவையை இப்போதுதான் முடித்தோம். நீண்ட காலம் உழைக்கக்கூடியது. எங்கள் புதிய கிளைக்கு மேலும் இரண்டை ஆர்டர் செய்வோம்."';
+        if (testiTexts[5]) testiTexts[5].textContent = '"10 ஆண்டுகள் பழமையான சுப்ரீம் ஷட்டர் இன்னும் சரியாக வேலை செய்கிறது — வருடாந்திர சேவையை இப்போதான் முடித்தோம். நீண்ட காலம் உழைக்கக்கூடியது. எங்கள் புதிய கிளையைக்கு மேலும் இரண்டை ஆர்டர் செய்வோம்."';
         if (testiLocs[5]) testiLocs[5].textContent = 'தென்காசி · ஜவுளி கடை';
     } else {
         if (testiTexts[0]) testiTexts[0].textContent = '"Got our entire showroom front done — 4 motorized shutters. Perfectly silent, flawless finish. Supreme\'s team was professional from site visit to handover. Highly recommended."';
@@ -1433,10 +1459,10 @@ function translatePage(lang) {
         if (testiLocs[5]) testiLocs[5].textContent = 'Tenkasi · Textile Shop';
     }
 
-    // 20. Matrix Shutter Types Comparison Elements
+    // 20. Product Comparison
     setText('#compare .cmp-main-desc',
         'Compare our shutter types side by side to find the perfect fit for your space and budget.',
-        'உங்கள் இடம் மற்றும் பட்ஜெட்டுக்கு மிகவும் பொருத்தமானதைக் கண்டறிய எங்கள் ஷட்டர் வகைகளை அருகருகே ஒப்பிட்டுப் பாருங்கள்.'
+        'உங்கள் இடம் மற்றும் பட்ஜெட்டுக்கு மிகவும் பொருந்தமானதைக் கண்டறிய எங்கள் ஷட்டர் வகைகளை அருகருகே ஒப்பிட்டுப் பாருங்கள்.'
     );
     const compTableHeads = document.querySelectorAll('#compare th');
     if (isTa) {
@@ -1472,7 +1498,7 @@ function translatePage(lang) {
         const r2Cells = tableRows[2].querySelectorAll('td');
         r2Cells[0].textContent = isTa ? 'சிறந்த பயன்பாடு' : 'Best Application';
         r2Cells[1].textContent = isTa ? 'சிறிய கடைகள்' : 'Small shops';
-        r2Cells[2].textContent = isTa ? 'நடுத்தர கடைகள்' : 'Medium shops';
+        r2Cells[2].textContent = isTa ? 'நடுதர கடைகள்' : 'Medium shops';
         r2Cells[3].textContent = isTa ? 'ஷோரூம்கள் / பெரியவை' : 'Showrooms / Large';
         r2Cells[4].textContent = isTa ? 'வங்கிகள் / நகைக்கடைகள்' : 'Banks / Jewellery';
 
@@ -1522,14 +1548,14 @@ function translatePage(lang) {
         r9Cells[0].textContent = isTa ? 'பாதுகாப்பு நிலை' : 'Security Level';
     }
 
-    // 21. Live Product Configurator Form Interactivity
-    setText('#cfg-label-1', isTa ? '1. இயக்க மெக்கானிசம் வகை' : '1. Mechanism Type');
+    // 21. Product Configurator
+    setText('#cfg-label-1', isTa ? '1. இயக்க இயந்திரம் வகை' : '1. Mechanism Type');
     setText('#cfg-label-2', isTa ? '2. ஷீட் வண்ண சாயல்' : '2. Sheet Tint');
     setText('#product-configurator .config-note-text',
         '*Note: Final powder-coat finish will be matched to your RAL choice.',
-        '*குறிப்பு: இறுதி பவுடர்-கோட் பூச்சு உங்கள் ஆர்ஏஎல் (RAL) தேர்வுக்கு ஏற்ப பொருத்தப்படும்.'
+        '*குறிப்பு: இறுதி பவுடர்-கோட் பூசு உங்கள் ஆர்ஏஎல் (RAL) தேர்வுக்கு ஏற்ப பொருத்தப்படும்.'
     );
-    setText('#product-configurator .config-submit-btn', isTa ? 'இந்த வடிவமைப்பை பற்றி விசாரிக்கவும்' : 'Enquire About This Build');
+    setText('#product-configurator .config-submit-btn', isTa ? 'இந்த வடிவமைப்பைப் பற்றி விசாரிக்கவும்' : 'Enquire About This Build');
 
     const configButtons = document.querySelectorAll('.config-controls button:not(.config-submit-btn)');
     if (configButtons.length >= 3) {
@@ -1604,7 +1630,7 @@ function showRecommendations(trigger, reason) {
     const recsPool = {
         motor: [
             {
-                name: "Heavy-Duty Ups System", nameTa: "ஹெவி-டியூட்டி யுபிஎஸ் பேக்கப்",
+                name: "Heavy-Duty UPS System", nameTa: "ஹெவிய-டியூட்டி யூபிஎஸ் பேக்கப்",
                 desc: "Ensures operational readiness during unexpected power grid failures. Up to 15 emergency open/close operational cycles.",
                 descTa: "மின் தடை காலங்களிலும் அவசர இயக்கத்தை உறுதி செய்கிறது. 15 முறை அவசரகால இயக்க சுழற்சிகள் வரை இயங்கும்.",
                 icon: "fa-battery-full", price: "₹14,500", label: "Power Backup", labelTa: "மின்சாரம் பேக்கப்"
@@ -1612,7 +1638,7 @@ function showRecommendations(trigger, reason) {
             {
                 name: "Multi-Channel Smart Remote", nameTa: "மல்டி-சேனல் ஸ்மார்ட் ரிமோட்",
                 desc: "Control up to 4 commercial shutters independently with long-range encrypted rolling codes from a single handset device.",
-                descTa: "ஒரே ரிமோட் சாதனத்திலிருந்து 4 வணிக ஷட்டர்கள் வரை தனித்தனியாக நீண்ட தூர குறியாக்கத்துடன் கட்டுப்படுத்தலாம்.",
+                descTa: "ஒரே ரிமோட் சாதனத்தில் இருந்து 4 வணிக ஷட்டர்கள் வரை தனித்தனியாக நீண்ட தூர குறியாக்கத்துடன் கட்டுப்படுத்தலாம்.",
                 icon: "fa-rss", price: "₹2,400", label: "Access Control", labelTa: "அணுகல் கட்டுப்பாடு"
             }
         ],
@@ -1620,7 +1646,7 @@ function showRecommendations(trigger, reason) {
             {
                 name: "Mechanical Anti-Lift Lock Profile", nameTa: "மெக்கானிக்கல் ஆண்டி-லிப்ட் லாக்",
                 desc: "Interlocking bottom steel profile completely prevents heavy manual crowbar lifting attempts from intruder elements.",
-                descTa: "ஊடுருவல்காரர்களால் கீழே இருந்து லீவர் அல்லது குரோபார் மூலம் ஷட்டரை பலவந்தமாக தூக்குவதை முற்றிலும் தடுக்கிறது.",
+                descTa: "ஊடறுவலர்களால கீழே இருந்து லீவர் அல்லது குரோபார் மூலம் ஷட்டரை பலவந்தமாக தூக்குவதை முற்றிலும் தடுக்கிறது.",
                 icon: "fa-lock", price: "₹3,500", label: "Security Plus", labelTa: "கூடுதல் பாதுகாப்பு"
             }
         ]
@@ -1662,7 +1688,7 @@ calcRun = function () {
     const isTa = (localStorage.getItem('supreme-lang') === 'ta');
     if (op === 'motor') {
         setTimeout(() => {
-            showRecommendations('motor', isTa ? 'நீங்கள் மோட்டார் ஷட்டரைத் தேர்ந்தெடுத்துள்ளதால்' : "Because you selected a motorized shutter system configuration build");
+            showRecommendations('motor', isTa ? 'நீங்கள் மோட்டார் ஷட்டரைத் தேர்ந்தெடுத்ததால்' : "Because you selected a motorized shutter system configuration build");
         }, 1200);
     }
 };
@@ -1680,7 +1706,7 @@ document.querySelectorAll('.map-district').forEach(district => {
     });
 });
 
-// ── NOTIFICATION HELPER ──
+/* ── NOTIFICATION HELPER ── */
 function showNotification(message) {
     const notif = document.createElement('div');
     notif.style.cssText = `
