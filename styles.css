@@ -1,7 +1,7 @@
 /* ==========================================================================
    ATELIER — v2 "Gilded Precision"
    Single-file stylesheet. Drop-in replacement for v1: every class, id,
-   state hook and data attribute is preserved, so no markup change is needed.
+   state hook and data attribute is preserved, so no markup change is 
 
    WHAT CHANGED
    · Three conflicting :root blocks merged into one token system
