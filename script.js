@@ -1,3 +1,4 @@
+/*start*/
 if (!window.gsap) {
     const chain = { to() { return this; }, from() { return this; }, fromTo() { return this; }, set() { return this; }, add() { return this; }, call() { return this; }, play() { return this; }, pause() { return this; }, reverse() { return this; }, kill() { return this; }, eventCallback() { return this; }, progress() { return this; } };
     window.ScrollTrigger = window.ScrollTrigger || { refresh() { }, create() { return { kill() { } } } };
