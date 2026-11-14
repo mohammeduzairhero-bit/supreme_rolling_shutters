@@ -7,7 +7,6 @@ if (!window.ScrollTrigger) window.ScrollTrigger = { refresh() { }, create() { re
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── Preloader ── */
-
 (function () {
     let pct = 0;
     const fill = document.getElementById('plFill');
