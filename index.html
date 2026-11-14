@@ -11,6 +11,7 @@
     <title>Supreme Rolling Shutters | Premium Shutter Solutions in Rajapalayam</title>
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="upgrade.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -275,6 +276,37 @@
                     <span class="spec-tag">Shatter-Proof</span>
                     <span class="spec-tag">Light Weight</span>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="try-shutter">
+        <div class="section-label">Try It Yourself</div>
+        <h2 class="section-title">Roll a <em>Shutter</em><br>Right Here</h2>
+        <p style="margin-top:16px;font-size:0.85rem;color:var(--gray);max-width:560px;line-height:1.8;">Pick a mechanism and operate it the way you would on site. Open it fully and the shop lights up.</p>
+        <div class="ts-grid">
+            <div class="ts-stage" id="ts-stage">
+                <div class="ts-room" id="ts-room"><div class="ts-sign">OPEN</div></div>
+                <div class="ts-light"></div>
+                <div class="ts-door lock" id="ts-door"></div>
+                <div class="ts-box"></div>
+                <div class="ts-handle" id="ts-handle" role="slider" tabindex="0" aria-label="Shutter position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+            </div>
+            <div class="ts-ctrl">
+                <div class="ts-tabs" role="group" aria-label="Mechanism">
+                    <button type="button" data-mode="manual" aria-pressed="true">Manual</button>
+                    <button type="button" data-mode="gear" aria-pressed="false">Gear</button>
+                    <button type="button" data-mode="motor" aria-pressed="false">Motor</button>
+                </div>
+                <div class="ts-pad" id="ts-pad"></div>
+                <div class="ts-readout">
+                    <div><small>Opening</small><strong id="ts-open">0%</strong></div>
+                    <div><small>Light inside</small><strong id="ts-light">Dark</strong></div>
+                    <div><small>Security</small><strong id="ts-sec">Locked</strong></div>
+                    <div><small>Mechanism</small><strong id="ts-mech">Manual</strong></div>
+                </div>
+                <p class="ts-hint" id="ts-hint"></p>
+                <button type="button" class="btn-primary" id="ts-quote" style="justify-content:center;cursor:pointer;">Quote this shutter <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </section>
@@ -1330,11 +1362,10 @@
             Bangalore Branch · Pan south india</div>
         <div class="footer-phone">98948 61777 &nbsp;|&nbsp; 94863 21681</div>
     </footer>
-    
+
     <script src="enhancements.js"></script>
     <script src="script.js"></script>
-    <script src="shutter-features.js"></script>
+    <script src="upgrade.js"></script>
 </body>
-
 
 </html>
