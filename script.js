@@ -577,7 +577,7 @@ async function generateShutterConcept() {
 
     // DEEPAI FALLBACK CONFIGURATION
     const DEEPAI_API_URL = 'https://api.deepai.org/api/image-editor';
-    const DEEPAI_API_KEY = 'YOUR_DEEPAI_KEY';
+    const DEEPAI_API_KEY = '2f92e97e-775f-413d-b1db-000281af36ad';
 
     // Client-side daily limit (not secure IP enforcement)
     const IMAGE_DAILY_LIMIT = 2;
