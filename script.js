@@ -629,7 +629,7 @@ async function generateShutterConcept() {
         // PRIMARY: PUTER AI
         try {
             const response = await puter.ai.txt2img(prompt, {
-                model: 'seedream-5-0-lite-260128',
+                model: 'gpt-image-2.6-flare',
                 input_image: uploadedShopPhotoDataUrl
             });
 
